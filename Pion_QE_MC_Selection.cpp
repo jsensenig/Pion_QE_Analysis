@@ -29,9 +29,11 @@ void Pion_QE_MC_Selection::ReadData(TFile *file) {
   // Create the histograms
   hists.ConfigureHistos();
 
+  int n_pionqe = 0;
+
   // Loop over trees
   while ( reader.Next() ) {
-    
+
     hists.h_beam_e -> Fill( **reader.beamtrackEnergy);
     if ( **reader.beamtrack_truth_Pdg == 2212 ) { hists.h_beam_e_cut -> Fill(**reader.beamtrackEnergy); }
 
@@ -43,8 +45,8 @@ void Pion_QE_MC_Selection::ReadData(TFile *file) {
         hists.h_prim_ke -> Fill( **reader.primary_truth_KinEnergy_InTPCActive );
         pi_pi = true;
       }
-      if( (*reader.primary_truthdaughter_Pdg)[i] == 2212 ) np += 1;
-      if( (*reader.primary_truthdaughter_Pdg)[i] == 2112 ) nn += 1;
+      if( reader.primary_truthdaughter_Pdg -> At(i)   == 2212 ) np += 1;
+      if( reader.primary_truthdaughter_Pdg -> At(i) == 2112 ) nn += 1;
     }
 
     //std::cout << "Pass daughter cut? " << sel.DaughterCut(np, nn) << std::endl;
@@ -55,9 +57,12 @@ void Pion_QE_MC_Selection::ReadData(TFile *file) {
       hists.h_n_np -> Fill( np, nn );
     }
 
+    if ( sel.IsTruthPionQE( reader ) ) n_pionqe += 1;
   }
 
   hists.WriteHistos("output.root");
+
+  std::cout << n_pionqe << " Pion QE candidates." << std::endl;
 
 }
 

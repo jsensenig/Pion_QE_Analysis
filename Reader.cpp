@@ -40,6 +40,7 @@ int Reader::ConfigureLeaves() {
 
   // Reco & truth beam events including daughters
   primaryOpeningAngle = new TTreeReaderValue<double>(*recobeamtevt_reader, "primaryOpeningAngle");
+  primaryIsshower = new TTreeReaderValue<int>(*recobeamtevt_reader, "primaryIsshower");
   primary_truth_KinEnergy_InTPCActive = new TTreeReaderValue<double>(*recobeamtevt_reader, "primary_truth_KinEnergy_InTPCActive");
   primaryPID_PIDA   = new TTreeReaderArray<double>(*recobeamtevt_reader, "primaryPID_PIDA");
   primary_truth_Pdg = new TTreeReaderValue<int>(*recobeamtevt_reader, "primary_truth_Pdg");

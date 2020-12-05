@@ -5,6 +5,7 @@
 #ifndef PION_QE_SELECTIONS_H
 #define PION_QE_SELECTIONS_H
 
+#include "Reader.h"
 
 class Selections {
 
@@ -14,6 +15,9 @@ public:
 
   bool PIDACut( double pida );
   bool DaughterCut( int p, int n );
+
+  bool IsTruthPionQE( Reader & rdr );
+
 protected:
 
 };

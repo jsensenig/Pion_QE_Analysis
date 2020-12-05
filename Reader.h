@@ -28,6 +28,7 @@ public:
 
   // Reco & truth beam events including daughters
   TTreeReaderValue<double> * primaryOpeningAngle;
+  TTreeReaderValue<int> * primaryIsshower;
   TTreeReaderValue<double> * primary_truth_KinEnergy_InTPCActive;
   TTreeReaderArray<double> * primaryPID_PIDA;
   TTreeReaderValue<int> * primary_truth_Pdg;

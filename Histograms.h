@@ -20,7 +20,7 @@ public:
   virtual ~Histograms();
 
   void ConfigureHistos();
-  void WriteHistos( TString out_file );
+  void WriteHistos( TString & out_file );
 
   // ----------------
   // Declare the histograms we want
@@ -33,7 +33,7 @@ public:
 
 protected:
 
-  bool OpenFile( TString out_file );
+  bool OpenFile( TString & out_file );
 
 private:
 

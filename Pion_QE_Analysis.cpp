@@ -21,7 +21,7 @@ void ProcessFiles() {
   Pion_QE_MC_Selection Sel;
 
   std::string f_list = "../files.txt";
-  std::vector<TString> file_list = LoadFileList( f_list );
+  std::vector<TString> file_list = utils::LoadFileList( f_list );
 
   if ( file_list.empty() ) return;
 

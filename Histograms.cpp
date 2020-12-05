@@ -23,7 +23,7 @@ void Histograms::ConfigureHistos() {
 
 }
 
-void Histograms::WriteHistos( TString out_file ) {
+void Histograms::WriteHistos( TString & out_file ) {
 
   if ( ! OpenFile( out_file ) ) return;
 
@@ -41,7 +41,7 @@ void Histograms::WriteHistos( TString out_file ) {
 
 }
 
-bool Histograms::OpenFile( TString out_file ) {
+bool Histograms::OpenFile( TString & out_file ) {
 
   ofile = new TFile( out_file, "recreate" );
 

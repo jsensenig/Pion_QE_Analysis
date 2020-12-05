@@ -3,6 +3,7 @@
 //
 
 #include "Selections.h"
+#include "Utilities.h"
 
 
 Selections::Selections()
@@ -26,22 +27,22 @@ bool Selections::PIDACut(double pida) {
 //----------------------------------------------------------------
 bool Selections::DaughterCut(int p, int n) {
 
-  if ( n > 0 && p > 0 ) return true;
-  return false;
+  return n > 0 && p > 0;
+
 }
 
 bool Selections::IsTruthPionQE( Reader & rdr ) {
 
-  if ( **rdr.primary_truth_Pdg != 211 ) return false;
+  if ( **rdr.primary_truth_Pdg !=  utils::pdg::kPdgPiP ) return false;
   if ( **rdr.primary_truth_ndaughters < 2 ) return false;
 
   int pion = 0; int nucleon = 0;
 
   for ( int p = 0; p < **rdr.primary_truth_ndaughters; p++ ) {
 
-    if ( rdr.primary_truthdaughter_Pdg->At(p) == 211 ) pion += 1;
-    if ( rdr.primary_truthdaughter_Pdg->At(p) == 2212 ||
-         rdr.primary_truthdaughter_Pdg->At(p) == 2112 ) nucleon += 1;
+    if ( rdr.primary_truthdaughter_Pdg->At(p) == utils::pdg::kPdgPiP ) pion += 1;
+    if ( rdr.primary_truthdaughter_Pdg->At(p) == utils::pdg::kPdgProton ||
+         rdr.primary_truthdaughter_Pdg->At(p) == utils::pdg::kPdgNeutron ) nucleon += 1;
 
   }
 

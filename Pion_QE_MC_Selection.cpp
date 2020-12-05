@@ -6,6 +6,7 @@
 #include "Selections.h"
 #include "Histograms.h"
 #include "Reader.h"
+#include "Utilities.h"
 // std library includes
 #include <iostream>
 
@@ -41,11 +42,11 @@ void Pion_QE_MC_Selection::ReadData(TFile *file) {
     bool pi_pi = false; int np = 0; int nn = 0;
     for ( int i = 0; i < (**reader.primary_truth_ndaughters); i++ ) {
 
-      if( **reader.primary_truth_Pdg == 211 && (*reader.primary_truthdaughter_Pdg)[i] == 211 ) { //primary and FS pion
+      if( **reader.primary_truth_Pdg == utils::pdg::kPdgPiP && (*reader.primary_truthdaughter_Pdg)[i] == 211 ) { //primary and FS pion
         hists.h_prim_ke -> Fill( **reader.primary_truth_KinEnergy_InTPCActive );
         pi_pi = true;
       }
-      if( reader.primary_truthdaughter_Pdg -> At(i)   == 2212 ) np += 1;
+      if( reader.primary_truthdaughter_Pdg -> At(i) == 2212 ) np += 1;
       if( reader.primary_truthdaughter_Pdg -> At(i) == 2112 ) nn += 1;
     }
 

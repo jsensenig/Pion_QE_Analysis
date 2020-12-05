@@ -14,9 +14,8 @@ public:
   virtual ~Selections();
 
   bool PIDACut( double pida );
-  bool DaughterCut( int p, int n );
-
-  bool IsTruthPionQE( Reader & rdr );
+  static bool DaughterCut( int p, int n );
+  static bool IsTruthPionQE( Reader & rdr );
 
 protected:
 

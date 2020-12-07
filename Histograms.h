@@ -31,6 +31,8 @@ public:
   TH1 * h_nneutron;
   TH1 * h_total_len_pionqe;
   TH1 * h_total_len;
+  TH1 * h_prim_pida_pi;
+  TH1 * h_prim_pida_all;
 
   TH2 * h_n_np;
 

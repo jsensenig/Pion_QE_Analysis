@@ -23,7 +23,14 @@ void Pion_QE_MC_Selection::ReadData(TFile *file) {
   while ( rdr.Next() ) {
 
     _hists.h_beam_e -> Fill( *rdr.beamtrackEnergy);
+    _hists.h_total_len -> Fill( *rdr.primary_truth_TotalLength );
+    _hists.h_prim_pida_all -> Fill( rdr.primaryPID_PIDA.At(0) ); // plane 0 = collection
 
+    if ( *rdr.primary_truth_Pdg == utils::pdg::kPdgPiP ) { // only select pions
+      _hists.h_prim_pida_pi -> Fill( rdr.primaryPID_PIDA.At(0) ); // plane 0 = collection
+    }
+
+    // Only pion QE events after this selection
     if ( !Selections::IsTruthPionQE( rdr ) ) continue;
 
     // Loop over truth daughters
@@ -37,7 +44,7 @@ void Pion_QE_MC_Selection::ReadData(TFile *file) {
     _hists.h_nproton -> Fill( np );
     _hists.h_nneutron -> Fill( nn );
     _hists.h_n_np -> Fill( np, nn );
-    _hists.h_total_len-> Fill( *rdr.primary_truth_TotalLength );
+    _hists.h_total_len_pionqe -> Fill( *rdr.primary_truth_TotalLength );
 
   }
 

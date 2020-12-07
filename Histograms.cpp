@@ -22,6 +22,8 @@ void Histograms::ConfigureHistos() {
   h_nneutron = th1_hists["h_nneutron"] = new TH1I("h_nneutron", ";neutron;Count", 15, 0, 15 );
   h_total_len = th1_hists["h_total_len"] = new TH1D("h_total_len", ";Total Length [cm];Count", 100, 0., 500. );
   h_total_len_pionqe = th1_hists["h_total_len_pionqe"] = new TH1D("h_total_len_pionqe", ";Total Length [cm];Count", 100, 0., 500. );
+  h_prim_pida_pi = th1_hists["h_prim_pida_pi"] = new TH1D("h_prim_pida_pi", ";PIDA;Count", 10, 0., 10.);
+  h_prim_pida_all = th1_hists["h_prim_pida_all"] = new TH1D("h_prim_pida_all", ";PIDA;Count", 40, 0., 40.);
 
   // 2D histograms
   h_n_np = th2_hists["h_n_p"] = new TH2I("h_n_np", ";proton;neutron", 10, 0, 10, 10, 0, 10 );

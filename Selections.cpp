@@ -39,8 +39,8 @@ bool Selections::IsTruthPionQE( Reader & rdr ) {
   for ( int p = 0; p < *rdr.primary_truth_NDAUGTHERS; p++ ) {
 
     if ( rdr.primary_truthdaughter_Pdg.At(p) == utils::pdg::kPdgPiP ) pion += 1;
-    if ( rdr.primary_truthdaughter_Pdg.At(p) == utils::pdg::kPdgProton ||
-         rdr.primary_truthdaughter_Pdg.At(p) == utils::pdg::kPdgNeutron ) nucleon += 1;
+    else if ( rdr.primary_truthdaughter_Pdg.At(p) == utils::pdg::kPdgProton ||
+              rdr.primary_truthdaughter_Pdg.At(p) == utils::pdg::kPdgNeutron ) nucleon += 1;
 
   }
 

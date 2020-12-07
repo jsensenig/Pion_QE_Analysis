@@ -3,9 +3,6 @@
 //
 
 #include "Pion_QE_MC_Selection.h"
-#include "Selections.h"
-#include "Histograms.h"
-#include "Reader.h"
 #include "Utilities.h"
 // std library includes
 #include <iostream>
@@ -17,40 +14,35 @@ void Pion_QE_MC_Selection::ReadData(TFile *file) {
   std::cout << "Loading up reader" << std::endl;
 
   // ROOT event reader
-  Reader reader(file);
+  Reader rdr(file);
 
-  // Selection class
-  Selections sel;
-
-  //Histogram class
-  Histograms hists;
   // Create the histograms
-  hists.ConfigureHistos();
+  _hists.ConfigureHistos();
 
   // Loop over trees
-  while ( reader.Next() ) {
+  while ( rdr.Next() ) {
 
-    hists.h_beam_e -> Fill( *reader.beamtrackEnergy);
+    _hists.h_beam_e -> Fill( *rdr.beamtrackEnergy);
 
-    if ( !sel.IsTruthPionQE( reader ) ) continue;
+    if ( !Selections::IsTruthPionQE( rdr ) ) continue;
 
     // Loop over truth daughters
     int np = 0; int nn = 0;
-    for ( int i = 0; i < ( *reader.primary_truth_NDAUGTHERS ); i++ ) {
-      if( reader.primary_truthdaughter_Pdg.At(i) == utils::pdg::kPdgProton )  np += 1;
-      if( reader.primary_truthdaughter_Pdg.At(i) == utils::pdg::kPdgNeutron ) nn += 1;
+    for ( int i = 0; i < ( *rdr.primary_truth_NDAUGTHERS ); i++ ) {
+      if( rdr.primary_truthdaughter_Pdg.At(i) == utils::pdg::kPdgProton )  np += 1;
+      if( rdr.primary_truthdaughter_Pdg.At(i) == utils::pdg::kPdgNeutron ) nn += 1;
     }
 
-    hists.h_prim_ke -> Fill( *reader.primary_truth_KinEnergy_InTPCActive );
-    hists.h_nproton -> Fill( np );
-    hists.h_nneutron -> Fill( nn );
-    hists.h_n_np -> Fill( np, nn );
-    hists.h_total_len-> Fill( *reader.primary_truth_TotalLength );
+    _hists.h_prim_ke -> Fill( *rdr.primary_truth_KinEnergy_InTPCActive );
+    _hists.h_nproton -> Fill( np );
+    _hists.h_nneutron -> Fill( nn );
+    _hists.h_n_np -> Fill( np, nn );
+    _hists.h_total_len-> Fill( *rdr.primary_truth_TotalLength );
 
   }
 
   TString outfile = "output.root";
-  hists.WriteHistos( outfile );
+  _hists.WriteHistos( outfile );
 
 }
 

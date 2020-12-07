@@ -24,17 +24,17 @@ public:
 
   // ----------------
   // Declare the histograms we want
-  TH1 * h_beam_e;
-  TH1 * h_beam_e_cut;
-  TH1 * h_prim_ke;
-  TH1 * h_nproton;
-  TH1 * h_nneutron;
-  TH1 * h_total_len_pionqe;
-  TH1 * h_total_len;
-  TH1 * h_prim_pida_pi;
-  TH1 * h_prim_pida_all;
+  std::shared_ptr<TH1> h_beam_e;
+  std::shared_ptr<TH1> h_beam_e_cut;
+  std::shared_ptr<TH1> h_prim_ke;
+  std::shared_ptr<TH1> h_nproton;
+  std::shared_ptr<TH1> h_nneutron;
+  std::shared_ptr<TH1> h_total_len_pionqe;
+  std::shared_ptr<TH1> h_total_len;
+  std::shared_ptr<TH1> h_prim_pida_pi;
+  std::shared_ptr<TH1> h_prim_pida_all;
 
-  TH2 * h_n_np;
+  std::shared_ptr<TH2> h_n_np;
 
 protected:
 
@@ -42,10 +42,10 @@ protected:
 
 private:
 
-  std::map<std::string, TH1*> th1_hists;
-  std::map<std::string , TH2*> th2_hists;
+  std::map< std::string, std::shared_ptr<TH1> > th1_hists;
+  std::map< std::string , std::shared_ptr<TH2> > th2_hists;
 
-  TFile * ofile;
+  std::unique_ptr<TFile> ofile;
 
 };
 

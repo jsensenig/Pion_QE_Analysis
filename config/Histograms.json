@@ -5,25 +5,87 @@
       "name" : "h_beam_e",
       "type": "TH1D",
       "axes": "Beam Energy;E;Count",
-      "bins": 20,
-      "u_lim": 20,
+      "bins": 80,
+      "u_lim": 2,
       "l_lim": 0
     },
     {
       "name" : "h_beam_e_cut",
       "type": "TH1D",
       "axes": "Beam Energy Cut;E;Count",
-      "bins": 20,
-      "u_lim": 40,
+      "bins": 80,
+      "u_lim": 2,
       "l_lim": 0
     },
     {
       "name" : "h_prim_ke",
       "type": "TH1D",
       "axes": "Primary Kinetic Energy;KE;Count",
-      "bins": 20,
-      "u_lim": 20,
+      "bins": 120,
+      "u_lim": 3,
       "l_lim": 0
+    },
+    {
+      "name" : "h_nproton",
+      "type": "TH1I",
+      "axes": "Number of Protons;Protons;Count",
+      "bins": 15,
+      "u_lim": 15,
+      "l_lim": 0
+    },
+    {
+      "name" : "h_nneutron",
+      "type": "TH1I",
+      "axes": "Number of Neutrons;Neutrons;Count",
+      "bins": 15,
+      "u_lim": 15,
+      "l_lim": 0
+    },
+    {
+      "name" : "h_total_len",
+      "type": "TH1D",
+      "axes": "Total Length All;Len [cm];Count",
+      "bins": 100,
+      "u_lim": 500,
+      "l_lim": 0
+    },
+     {                                            
+       "name" : "h_total_len_pionqe",                    
+       "type": "TH1D",                            
+       "axes": "Total Le piQE;Len [cm];Count", 
+       "bins": 100,                               
+       "u_lim": 500,                              
+       "l_lim": 0
+     },
+     {
+       "name" : "h_prim_pida_pi",
+       "type": "TH1D",
+       "axes": "PIDA pi;PIDA;Count",
+       "bins": 10,
+       "u_lim": 10,
+       "l_lim": 0
+     },
+     {
+       "name" : "h_prim_pida_all",
+       "type": "TH1D",
+       "axes": "PIDA All;PIDA;Count",
+       "bins": 40,
+       "u_lim": 40,
+       "l_lim": 0
+     }
+  ],
+  "2d_hists": [
+    {                                            
+      "name" : "h_neutron_proton",
+      "type": "TH2I",
+      "axes": "Number of Nucleons;Protons;Neutrons",
+      "xbins": 10,
+      "ybins": 10,
+      "xu_lim": 10,
+      "xl_lim": 0,
+      "yu_lim": 10,
+      "yl_lim": 0
     }
   ]
+
 }

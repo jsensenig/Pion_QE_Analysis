@@ -10,6 +10,7 @@
 #include "TH1D.h"
 #include "TH2D.h"
 #include "TFile.h"
+#include "Utilities.h"
 
 
 class Histograms {
@@ -37,18 +38,20 @@ public:
 
   std::shared_ptr<TH2> h_n_np;
 
+  std::map< std::string, std::shared_ptr<TH1> > th1_hists;
+  std::map< std::string, std::unique_ptr<TH1> > th1_test;
+  std::map< std::string , std::shared_ptr<TH2> > th2_hists;
+
 protected:
 
   bool OpenFile( TString & out_file );
 
 private:
 
-  std::map< std::string, std::shared_ptr<TH1> > th1_hists;
-  std::map< std::string , std::shared_ptr<TH2> > th2_hists;
-
   std::unique_ptr<TFile> ofile;
 
   const std::string _config_file = "../config/Histograms.json";
+  json _conf;
 
 };
 

@@ -3,7 +3,6 @@
 //
 #include "Pion_QE_Analysis.h"
 #include "Pion_QE_MC_Selection.h"
-#include "Utilities.h"
 
 #include <iostream>
 #include <string>

@@ -4,7 +4,15 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+
 #include "TString.h"
+#include "TH1I.h"
+#include "TH1D.h"
+#include "TH1F.h"
+#include "TH2I.h"
+#include "TH2D.h"
+#include "TH2F.h"
+
 #include <contrib/json.hpp>
 
 using json = nlohmann::json;
@@ -69,8 +77,7 @@ namespace utils {
 
   }
 
-  template<class T>
-  static std::unique_ptr<T> CreateHist( json & c ) {
+  static std::unique_ptr<TH1> Create1dHist( json & c ) {
 
     std::string name = c.at("name").get<std::string>();
     std::string type = c.at("type").get<std::string>();
@@ -80,8 +87,30 @@ namespace utils {
     double u_lim = c.at("u_lim").get<double>();
     double l_lim = c.at("l_lim").get<double>();
 
-    return std::make_unique<T>(name, axes, bins, l_lim, u_lim);
+    if ( type == "TH1I" )      return std::make_unique<TH1I>(name.c_str(), axes.c_str(), bins, l_lim, u_lim);
+    else if ( type == "TH1D" ) return std::make_unique<TH1D>(name.c_str(), axes.c_str(), bins, l_lim, u_lim);
+    else if ( type == "TH1F" ) return std::make_unique<TH1F>(name.c_str(), axes.c_str(), bins, l_lim, u_lim);
+    else return nullptr;
 
   }
 
+  static std::unique_ptr<TH2> Create2dHist( json & c ) {
+
+    std::string name = c.at("name").get<std::string>();
+    std::string type = c.at("type").get<std::string>();
+    std::string axes = c.at("axes").get<std::string>();
+
+    int xbins     = c.at("xbins").get<int>();
+    double xu_lim = c.at("xu_lim").get<double>();
+    double xl_lim = c.at("xl_lim").get<double>();
+    int ybins     = c.at("ybins").get<int>();
+    double yu_lim = c.at("yu_lim").get<double>();
+    double yl_lim = c.at("yl_lim").get<double>();
+
+    if ( type == "TH2I" )      return std::make_unique<TH2I>(name.c_str(), axes.c_str(), xbins, xl_lim, xu_lim, ybins, yl_lim, yu_lim);
+    else if ( type == "TH2D" ) return std::make_unique<TH2D>(name.c_str(), axes.c_str(), xbins, xl_lim, xu_lim, ybins, yl_lim, yu_lim);
+    else if ( type == "TH2F" ) return std::make_unique<TH2F>(name.c_str(), axes.c_str(), xbins, xl_lim, xu_lim, ybins, yl_lim, yu_lim);
+    else return nullptr;
+
+  }
 }

@@ -42,6 +42,22 @@
       "l_lim": 0
     },
     {
+      "name" : "h_nproton_all",
+      "type": "TH1I",
+      "axes": "Number of Protons All;Protons;Count",
+      "bins": 15,
+      "u_lim": 15,
+      "l_lim": 0
+    },
+    {
+      "name" : "h_nneutron_all",
+      "type": "TH1I",
+      "axes": "Number of Neutrons All;Neutrons;Count",
+      "bins": 15,
+      "u_lim": 15,
+      "l_lim": 0
+    },
+    { 
       "name" : "h_total_len",
       "type": "TH1D",
       "axes": "Total Length All;Len [cm];Count",
@@ -49,30 +65,54 @@
       "u_lim": 500,
       "l_lim": 0
     },
-     {                                            
-       "name" : "h_total_len_pionqe",                    
-       "type": "TH1D",                            
-       "axes": "Total Le piQE;Len [cm];Count", 
-       "bins": 100,                               
-       "u_lim": 500,                              
-       "l_lim": 0
-     },
-     {
-       "name" : "h_prim_pida_pi",
-       "type": "TH1D",
-       "axes": "PIDA pi;PIDA;Count",
-       "bins": 10,
-       "u_lim": 10,
-       "l_lim": 0
-     },
-     {
-       "name" : "h_prim_pida_all",
-       "type": "TH1D",
-       "axes": "PIDA All;PIDA;Count",
-       "bins": 40,
-       "u_lim": 40,
-       "l_lim": 0
-     }
+    {                                            
+      "name" : "h_total_len_pionqe",                    
+      "type": "TH1D",                            
+      "axes": "Total Length piQE;Len [cm];Count", 
+      "bins": 100,                               
+      "u_lim": 500,                              
+      "l_lim": 0
+    },
+    {                                            
+      "name" : "h_total_len_proton",                    
+      "type": "TH1D",                            
+      "axes": "Total Length proton;Len [cm];Count", 
+      "bins": 100,                               
+      "u_lim": 500,                              
+      "l_lim": 0
+    },
+    {                                            
+      "name" : "h_total_len_positron",                    
+      "type": "TH1D",                            
+      "axes": "Total Length proton;Len [cm];Count", 
+      "bins": 100,                               
+      "u_lim": 500,                              
+      "l_lim": 0
+    },
+    {                                            
+      "name" : "h_total_len_pion",                    
+      "type": "TH1D",                            
+      "axes": "Total Length pion;Len [cm];Count", 
+      "bins": 100,                               
+      "u_lim": 500,                              
+      "l_lim": 0
+    },
+    {
+      "name" : "h_prim_pida_pi",
+      "type": "TH1D",
+      "axes": "PIDA pi;PIDA;Count",
+      "bins": 10,
+      "u_lim": 10,
+      "l_lim": 0
+    },
+    {
+      "name" : "h_prim_pida_all",
+      "type": "TH1D",
+      "axes": "PIDA All;PIDA;Count",
+      "bins": 40,
+      "u_lim": 40,
+      "l_lim": 0
+    }
   ],
   "2d_hists": [
     {                                            
@@ -85,7 +125,30 @@
       "xl_lim": 0,
       "yu_lim": 10,
       "yl_lim": 0
+    },
+    {                                            
+      "name" : "h_neutron_proton_all",
+      "type": "TH2I",
+      "axes": "Number of Nucleons All;Protons;Neutrons",
+      "xbins": 10,
+      "ybins": 10,
+      "xu_lim": 10,
+      "xl_lim": 0,
+      "yu_lim": 10,
+      "yl_lim": 0
+    },
+    {                                            
+      "name" : "h_neutron_proton_pion",
+      "type": "TH2I",
+      "axes": "Number of Nucleons Pion;Protons;Neutrons",
+      "xbins": 10,
+      "ybins": 10,
+      "xu_lim": 10,
+      "xl_lim": 0,
+      "yu_lim": 10,
+      "yl_lim": 0
     }
+
   ]
 
 }

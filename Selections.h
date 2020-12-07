@@ -16,9 +16,21 @@ public:
   virtual ~Selections();
 
   bool PIDACut( double pida );
+
   bool DaughterCut( int p, int n );
+
   bool IsTruthPionQE( Reader & rdr );
+
   void Config();
+
+  // Function to count TTree arrays
+//----------------------------------------------------------------
+  template<typename T>
+  int Count( TTreeReaderArray<T> & arr, T a ) {
+
+    return std::count(arr.begin(), arr.end(), a );
+
+  }
 
 protected:
 

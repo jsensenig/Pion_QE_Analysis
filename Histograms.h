@@ -24,22 +24,8 @@ public:
   void ConfigureHistos();
   void WriteHistos( TString & out_file );
 
-  // ----------------
-  // Declare the histograms we want
-  std::shared_ptr<TH1> h_beam_e;
-  std::shared_ptr<TH1> h_beam_e_cut;
-  std::shared_ptr<TH1> h_prim_ke;
-  std::shared_ptr<TH1> h_nproton;
-  std::shared_ptr<TH1> h_nneutron;
-  std::shared_ptr<TH1> h_total_len_pionqe;
-  std::shared_ptr<TH1> h_total_len;
-  std::shared_ptr<TH1> h_prim_pida_pi;
-  std::shared_ptr<TH1> h_prim_pida_all;
-
-  std::shared_ptr<TH2> h_n_np;
-
+  // Hold all the histograms in these maps
   std::map< std::string, std::shared_ptr<TH1> > th1_hists;
-  std::map< std::string, std::unique_ptr<TH1> > th1_test;
   std::map< std::string , std::shared_ptr<TH2> > th2_hists;
 
 protected:

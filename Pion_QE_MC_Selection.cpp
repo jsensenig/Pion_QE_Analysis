@@ -12,6 +12,7 @@
 void Pion_QE_MC_Selection::ReadData(TFile *file) {
 
   std::cout << "Loading up reader" << std::endl;
+  Config();
 
   // ROOT event reader
   Reader rdr(file);
@@ -31,7 +32,7 @@ void Pion_QE_MC_Selection::ReadData(TFile *file) {
     }
 
     // Only pion QE events after this selection
-    if ( !Selections::IsTruthPionQE( rdr ) ) continue;
+    if ( !_sel.IsTruthPionQE( rdr ) ) continue;
 
     // Loop over truth daughters
     int np = 0; int nn = 0;
@@ -48,8 +49,17 @@ void Pion_QE_MC_Selection::ReadData(TFile *file) {
 
   }
 
-  TString outfile = "output.root";
-  _hists.WriteHistos( outfile );
+  _hists.WriteHistos( _outfile );
+
+}
+
+void Pion_QE_MC_Selection::Config() {
+
+  json conf = utils::LoadConfig( _config_file );
+  if ( conf == 0 ) return;
+
+  _outfile = conf.at("out_file").get<std::string>();
+  std::cout << "Output file: " << _outfile << std::endl;
 
 }
 

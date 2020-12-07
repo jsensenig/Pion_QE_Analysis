@@ -16,11 +16,17 @@ class Pion_QE_MC_Selection {
 public:
 
   void ReadData(TFile *file);
+  void Config();
 
 private:
 
   //Histogram class
   Histograms _hists;
+  //Selection clas
+  Selections _sel;
+
+  const std::string _config_file = "../config/Pion_QE_MC_Selection.json";
+  TString _outfile;
 
 };
 

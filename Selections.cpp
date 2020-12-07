@@ -7,7 +7,7 @@
 
 
 Selections::Selections()
-{ ; }
+{ Config(); }
 
 Selections::~Selections()
 { ; }
@@ -17,7 +17,7 @@ Selections::~Selections()
 //----------------------------------------------------------------
 bool Selections::PIDACut(double pida) {
 
-  return pida > 0 && pida < 12;
+  return pida > lower_PIDACut && pida < upper_PIDACut;
 
 }
 
@@ -25,7 +25,7 @@ bool Selections::PIDACut(double pida) {
 //----------------------------------------------------------------
 bool Selections::DaughterCut(int p, int n) {
 
-  return n > 0 && p > 0;
+  return n > neutron_daughter_count && p > proton_daughter_count;
 
 }
 
@@ -45,5 +45,18 @@ bool Selections::IsTruthPionQE( Reader & rdr ) {
   }
 
   return ( pion == 1 ) && ( nucleon > 0 );
+
+}
+
+void Selections::Config() {
+
+  json conf = utils::LoadConfig( _config_file );
+  if ( conf == 0 ) return;
+
+  upper_PIDACut = conf.at("PIDACut").at("upper").get<int>();
+  lower_PIDACut = conf.at("PIDACut").at("lower").get<int>();
+
+  neutron_daughter_count = conf.at("DaughterCut").at("neutron_count").get<int>();
+  proton_daughter_count = conf.at("DaughterCut").at("proton_count").get<int>();
 
 }

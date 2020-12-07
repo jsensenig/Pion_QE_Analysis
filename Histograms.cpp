@@ -3,11 +3,11 @@
 //
 
 #include "Histograms.h"
-
+#include "Utilities.h"
 
 
 Histograms::Histograms()
-{ ; }
+{ Config(); }
 
 Histograms::~Histograms()
 { ; }
@@ -55,4 +55,13 @@ bool Histograms::OpenFile( TString & out_file ) {
     return false;
   }
   return true;
+}
+
+void Histograms::Config() {
+
+  json conf = utils::LoadConfig( _config_file );
+  if ( conf == 0 ) return;
+
+
+
 }

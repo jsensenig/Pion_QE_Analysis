@@ -1,0 +1,12 @@
+{
+  "PIDACut" : {
+    "upper": 12,
+    "lower": 0
+  },
+  "DaughterCut" : {
+    "proton_count" : 0,
+    "neutron_count" : 0
+  },
+  "IsTruthPionQE" : {
+  }
+}

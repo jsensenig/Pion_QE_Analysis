@@ -19,6 +19,7 @@ public:
   Histograms();
   virtual ~Histograms();
 
+  void Config();
   void ConfigureHistos();
   void WriteHistos( TString & out_file );
 
@@ -46,6 +47,8 @@ private:
   std::map< std::string , std::shared_ptr<TH2> > th2_hists;
 
   std::unique_ptr<TFile> ofile;
+
+  const std::string _config_file = "../config/Histograms.json";
 
 };
 

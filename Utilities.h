@@ -5,6 +5,9 @@
 #include <fstream>
 #include <vector>
 #include "TString.h"
+#include <contrib/json.hpp>
+
+using json = nlohmann::json;
 
 namespace utils {
 
@@ -31,7 +34,7 @@ namespace utils {
 //@brief Utility to load a list of files to process from a file.
 //
 //----------------------------------------------------------------
-  static std::vector<TString> LoadFileList( const std::string &file_list ) {
+  static std::vector<TString> LoadFileList(const std::string &file_list) {
 
     std::vector<TString> file_vec;
     std::string line;
@@ -48,6 +51,36 @@ namespace utils {
     } else std::cout << "Unable to open file" << std::endl;
 
     return file_vec;
+
+  }
+
+  static json LoadConfig( const std::string & file ) {
+
+    std::ifstream injson( file );
+
+    if ( !injson.is_open() ) {
+
+     std::cout << "Failed to open config file " << file << std::endl;
+     return nullptr;
+
+   }
+
+    return json::parse(injson);
+
+  }
+
+  template<class T>
+  static std::unique_ptr<T> CreateHist( json & c ) {
+
+    std::string name = c.at("name").get<std::string>();
+    std::string type = c.at("type").get<std::string>();
+    std::string axes = c.at("axes").get<std::string>();
+
+    int bins     = c.at("bins").get<int>();
+    double u_lim = c.at("u_lim").get<double>();
+    double l_lim = c.at("l_lim").get<double>();
+
+    return std::make_unique<T>(name, axes, bins, l_lim, u_lim);
 
   }
 

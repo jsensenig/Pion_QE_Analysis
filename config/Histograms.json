@@ -1,0 +1,29 @@
+{
+  "out_file": "ana_output.root",
+  "1d_hists": [
+    {
+      "name" : "h_beam_e",
+      "type": "TH1D",
+      "axes": "Beam Energy;E;Count",
+      "bins": 20,
+      "u_lim": 20,
+      "l_lim": 0
+    },
+    {
+      "name" : "h_beam_e_cut",
+      "type": "TH1D",
+      "axes": "Beam Energy Cut;E;Count",
+      "bins": 20,
+      "u_lim": 40,
+      "l_lim": 0
+    },
+    {
+      "name" : "h_prim_ke",
+      "type": "TH1D",
+      "axes": "Primary Kinetic Energy;KE;Count",
+      "bins": 20,
+      "u_lim": 20,
+      "l_lim": 0
+    }
+  ]
+}

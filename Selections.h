@@ -7,6 +7,7 @@
 
 #include "Reader.h"
 
+
 class Selections {
 
 public:
@@ -14,11 +15,22 @@ public:
   Selections();
   virtual ~Selections();
 
-  static bool PIDACut( double pida );
-  static bool DaughterCut( int p, int n );
-  static bool IsTruthPionQE( Reader & rdr );
+  bool PIDACut( double pida );
+  bool DaughterCut( int p, int n );
+  bool IsTruthPionQE( Reader & rdr );
+  void Config();
 
 protected:
+
+  int upper_PIDACut;
+  int lower_PIDACut;
+
+  int proton_daughter_count;
+  int neutron_daughter_count;
+
+private:
+
+  const std::string _config_file = "../config/Selections.json";
 
 };
 

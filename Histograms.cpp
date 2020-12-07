@@ -14,12 +14,17 @@ Histograms::~Histograms()
 
 void Histograms::ConfigureHistos() {
 
-  h_beam_e = th1_hists["h_beam_e"] = new TH1D("h_beam_e", "E;Count", 80, 0., 2.0 );
-  h_beam_e_cut = th1_hists["h_beam_e_cut"] = new TH1D("h_beam_e_cut", "E;Count", 80, 0., 2.0 );
-  h_prim_ke = th1_hists["h_prim_ke"] = new TH1D("h_prim_ke", "KE;Count", 120, 0., 3. );
-  h_nproton = th1_hists["h_nproton"] = new TH1I("h_nproton", "protons;Count", 15, 0, 15 );
-  h_nneutron = th1_hists["h_nneutron"] = new TH1I("h_nneutron", "neutron;Count", 15, 0, 15 );
-  h_n_np = th2_hists["h_n_p"] = new TH2I("h_n_np", "proton;neutron", 10, 0, 10, 10, 0, 10 );
+  // 1D histograms
+  h_beam_e = th1_hists["h_beam_e"] = new TH1D("h_beam_e", ";E;Count", 80, 0., 2.0 );
+  h_beam_e_cut = th1_hists["h_beam_e_cut"] = new TH1D("h_beam_e_cut", ";E;Count", 80, 0., 2.0 );
+  h_prim_ke = th1_hists["h_prim_ke"] = new TH1D("h_prim_ke", ";KE;Count", 120, 0., 3. );
+  h_nproton = th1_hists["h_nproton"] = new TH1I("h_nproton", ";protons;Count", 15, 0, 15 );
+  h_nneutron = th1_hists["h_nneutron"] = new TH1I("h_nneutron", ";neutron;Count", 15, 0, 15 );
+  h_total_len = th1_hists["h_total_len"] = new TH1D("h_total_len", ";Total Length [cm];Count", 100, 0., 500. );
+  h_total_len_pionqe = th1_hists["h_total_len_pionqe"] = new TH1D("h_total_len_pionqe", ";Total Length [cm];Count", 100, 0., 500. );
+
+  // 2D histograms
+  h_n_np = th2_hists["h_n_p"] = new TH2I("h_n_np", ";proton;neutron", 10, 0, 10, 10, 0, 10 );
 
 }
 

@@ -16,11 +16,8 @@ void Pion_QE_MC_Selection::ReadData(TFile *file) {
 
   std::cout << "Loading up reader" << std::endl;
 
-  Reader reader;
-  // Read the Root trees into the TTreeReader
-  reader.ConfigureReader(file);
-  // Set the tree leaves to TTreeValues and TTreeArrays
-  reader.ConfigureLeaves();
+  // ROOT event reader
+  Reader reader(file);
 
   // Selection class
   Selections sel;
@@ -30,40 +27,30 @@ void Pion_QE_MC_Selection::ReadData(TFile *file) {
   // Create the histograms
   hists.ConfigureHistos();
 
-  int n_pionqe = 0;
-
   // Loop over trees
   while ( reader.Next() ) {
 
-    hists.h_beam_e -> Fill( **reader.beamtrackEnergy);
-    if ( **reader.beamtrack_truth_Pdg == 2212 ) { hists.h_beam_e_cut -> Fill(**reader.beamtrackEnergy); }
+    hists.h_beam_e -> Fill( *reader.beamtrackEnergy);
+
+    if ( !sel.IsTruthPionQE( reader ) ) continue;
 
     // Loop over truth daughters
-    bool pi_pi = false; int np = 0; int nn = 0;
-    for ( int i = 0; i < (**reader.primary_truth_ndaughters); i++ ) {
-
-      if( **reader.primary_truth_Pdg == utils::pdg::kPdgPiP && (*reader.primary_truthdaughter_Pdg)[i] == 211 ) { //primary and FS pion
-        hists.h_prim_ke -> Fill( **reader.primary_truth_KinEnergy_InTPCActive );
-        pi_pi = true;
-      }
-      if( reader.primary_truthdaughter_Pdg -> At(i) == 2212 ) np += 1;
-      if( reader.primary_truthdaughter_Pdg -> At(i) == 2112 ) nn += 1;
+    int np = 0; int nn = 0;
+    for ( int i = 0; i < ( *reader.primary_truth_NDAUGTHERS ); i++ ) {
+      if( reader.primary_truthdaughter_Pdg.At(i) == utils::pdg::kPdgProton )  np += 1;
+      if( reader.primary_truthdaughter_Pdg.At(i) == utils::pdg::kPdgNeutron ) nn += 1;
     }
 
-    //std::cout << "Pass daughter cut? " << sel.DaughterCut(np, nn) << std::endl;
+    hists.h_prim_ke -> Fill( *reader.primary_truth_KinEnergy_InTPCActive );
+    hists.h_nproton -> Fill( np );
+    hists.h_nneutron -> Fill( nn );
+    hists.h_n_np -> Fill( np, nn );
+    hists.h_total_len-> Fill( *reader.primary_truth_TotalLength );
 
-    if ( pi_pi ){
-      hists.h_nproton -> Fill( np );
-      hists.h_nneutron -> Fill( nn );
-      hists.h_n_np -> Fill( np, nn );
-    }
-
-    if ( sel.IsTruthPionQE( reader ) ) n_pionqe += 1;
   }
 
-  hists.WriteHistos("output.root");
-
-  std::cout << n_pionqe << " Pion QE candidates." << std::endl;
+  TString outfile = "output.root";
+  hists.WriteHistos( outfile );
 
 }
 

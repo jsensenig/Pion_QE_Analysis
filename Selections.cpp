@@ -17,9 +17,7 @@ Selections::~Selections()
 //----------------------------------------------------------------
 bool Selections::PIDACut(double pida) {
 
-  if ( pida > 0 && pida < 12 ) return true;
-
-  return false;
+  return pida > 0 && pida < 12;
 
 }
 
@@ -33,16 +31,16 @@ bool Selections::DaughterCut(int p, int n) {
 
 bool Selections::IsTruthPionQE( Reader & rdr ) {
 
-  if ( **rdr.primary_truth_Pdg !=  utils::pdg::kPdgPiP ) return false;
-  if ( **rdr.primary_truth_ndaughters < 2 ) return false;
+  if ( *rdr.primary_truth_Pdg !=  utils::pdg::kPdgPiP ) return false;
+  if ( *rdr.primary_truth_NDAUGTHERS < 2 ) return false;
 
   int pion = 0; int nucleon = 0;
 
-  for ( int p = 0; p < **rdr.primary_truth_ndaughters; p++ ) {
+  for ( int p = 0; p < *rdr.primary_truth_NDAUGTHERS; p++ ) {
 
-    if ( rdr.primary_truthdaughter_Pdg->At(p) == utils::pdg::kPdgPiP ) pion += 1;
-    if ( rdr.primary_truthdaughter_Pdg->At(p) == utils::pdg::kPdgProton ||
-         rdr.primary_truthdaughter_Pdg->At(p) == utils::pdg::kPdgNeutron ) nucleon += 1;
+    if ( rdr.primary_truthdaughter_Pdg.At(p) == utils::pdg::kPdgPiP ) pion += 1;
+    if ( rdr.primary_truthdaughter_Pdg.At(p) == utils::pdg::kPdgProton ||
+         rdr.primary_truthdaughter_Pdg.At(p) == utils::pdg::kPdgNeutron ) nucleon += 1;
 
   }
 

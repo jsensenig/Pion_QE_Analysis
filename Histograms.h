@@ -26,10 +26,13 @@ public:
   // Declare the histograms we want
   TH1 * h_beam_e;
   TH1 * h_beam_e_cut;
-  TH1* h_prim_ke;
-  TH1* h_nproton;
-  TH1* h_nneutron;
-  TH2* h_n_np;
+  TH1 * h_prim_ke;
+  TH1 * h_nproton;
+  TH1 * h_nneutron;
+  TH1 * h_total_len_pionqe;
+  TH1 * h_total_len;
+
+  TH2 * h_n_np;
 
 protected:
 

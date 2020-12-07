@@ -10,10 +10,11 @@
 class Selections {
 
 public:
+
   Selections();
   virtual ~Selections();
 
-  bool PIDACut( double pida );
+  static bool PIDACut( double pida );
   static bool DaughterCut( int p, int n );
   static bool IsTruthPionQE( Reader & rdr );
 

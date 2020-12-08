@@ -101,8 +101,40 @@
       "name" : "h_prim_pida_pi",
       "type": "TH1D",
       "axes": "PIDA pi;PIDA;Count",
-      "bins": 10,
-      "u_lim": 10,
+      "bins": 40,
+      "u_lim": 40,
+      "l_lim": 0
+    },
+    {
+      "name" : "h_prim_pida_proton",
+      "type": "TH1D",
+      "axes": "PIDA pi;PIDA;Count",
+      "bins": 40,
+      "u_lim": 40,
+      "l_lim": 0
+    },
+    {
+      "name" : "h_prim_pida_neutron",
+      "type": "TH1D",
+      "axes": "PIDA pi;PIDA;Count",
+      "bins": 40,
+      "u_lim": 40,
+      "l_lim": 0
+    },
+    {
+      "name" : "h_prim_pida_positron",
+      "type": "TH1D",
+      "axes": "PIDA pi;PIDA;Count",
+      "bins": 40,
+      "u_lim": 40,
+      "l_lim": 0
+    },
+    {
+      "name" : "h_prim_pida_muon",
+      "type": "TH1D",
+      "axes": "PIDA pi;PIDA;Count",
+      "bins": 40,
+      "u_lim": 40,
       "l_lim": 0
     },
     {
@@ -112,11 +144,99 @@
       "bins": 40,
       "u_lim": 40,
       "l_lim": 0
+    },
+    {
+      "name" : "h_daughter_pida_pi",
+      "type": "TH1D",
+      "axes": "Daughter PIDA pi;PIDA;Count",
+      "bins": 40,
+      "u_lim": 40,
+      "l_lim": 0
+    },
+    {
+      "name" : "h_daughter_pida_proton",
+      "type": "TH1D",
+      "axes": "Daughter PIDA proton;PIDA;Count",
+      "bins": 40,
+      "u_lim": 40,
+      "l_lim": 0
+    },
+    {
+      "name" : "h_daughter_pida_neutron",
+      "type": "TH1D",
+      "axes": "Daughter PIDA neutron;PIDA;Count",
+      "bins": 40,
+      "u_lim": 40,
+      "l_lim": 0
+    },
+    {
+      "name" : "h_daughter_pida_positron",
+      "type": "TH1D",
+      "axes": "Daughter PIDA positron;PIDA;Count",
+      "bins": 40,
+      "u_lim": 40,
+      "l_lim": 0
+    },
+    {
+      "name" : "h_daughter_pida_muon",
+      "type": "TH1D",
+      "axes": "Daughter PIDA muon;PIDA;Count",
+      "bins": 40,
+      "u_lim": 40,
+      "l_lim": 0
+    },
+    {
+      "name" : "h_daughter_pida_all_p0",
+      "type": "TH1D",
+      "axes": "Daughter PIDA All;PIDA;Count",
+      "bins": 80,
+      "u_lim": 40,
+      "l_lim": 0
+    },
+    {
+      "name" : "h_daughter_pida_all_p1",
+      "type": "TH1D",
+      "axes": "Daughter PIDA All;PIDA;Count",
+      "bins": 80,
+      "u_lim": 40,
+      "l_lim": 0
+    },
+    {
+      "name" : "h_daughter_pida_all_p2",
+      "type": "TH1D",
+      "axes": "Daughter PIDA All;PIDA;Count",
+      "bins": 80,
+      "u_lim": 40,
+      "l_lim": 0
+    },
+    {
+      "name" : "h_daughter_chi2_pion",
+      "type": "TH1D",
+      "axes": "Daughter Chi2 Pion;Chi2;Count",
+      "bins": 80,
+      "u_lim": 80,
+      "l_lim": 0
+    },
+    {
+      "name" : "h_daughter_chi2_proton",
+      "type": "TH1D",
+      "axes": "Daughter Chi2 Proton;Chi2;Count",
+      "bins": 80,
+      "u_lim": 80,
+      "l_lim": 0
+    },
+    {
+      "name" : "h_daughter_chi2_",
+      "type": "TH1D",
+      "axes": "Daughter Chi2 Pion;Chi2;Count",
+      "bins": 80,
+      "u_lim": 80,
+      "l_lim": 0
     }
   ],
   "2d_hists": [
     {                                            
-      "name" : "h_neutron_proton",
+      "name" : "h_neutron_proton_pionqe",
       "type": "TH2I",
       "axes": "Number of Nucleons;Protons;Neutrons",
       "xbins": 10,
@@ -130,22 +250,33 @@
       "name" : "h_neutron_proton_all",
       "type": "TH2I",
       "axes": "Number of Nucleons All;Protons;Neutrons",
-      "xbins": 10,
-      "ybins": 10,
-      "xu_lim": 10,
+      "xbins": 15,
+      "ybins": 15,
+      "xu_lim": 15,
       "xl_lim": 0,
-      "yu_lim": 10,
+      "yu_lim": 15,
       "yl_lim": 0
     },
     {                                            
       "name" : "h_neutron_proton_pion",
       "type": "TH2I",
       "axes": "Number of Nucleons Pion;Protons;Neutrons",
-      "xbins": 10,
-      "ybins": 10,
-      "xu_lim": 10,
+      "xbins": 15,
+      "ybins": 15,
+      "xu_lim": 15,
       "xl_lim": 0,
-      "yu_lim": 10,
+      "yu_lim": 15,
+      "yl_lim": 0
+    },
+    {                                            
+      "name" : "h_prim_chi2_pion",
+      "type": "TH2D",
+      "axes": "Chi2 Pion;Chi2;Truth Pdg",
+      "xbins": 15,
+      "ybins": 15,
+      "xu_lim": 15,
+      "xl_lim": 0,
+      "yu_lim": 15,
       "yl_lim": 0
     }
 

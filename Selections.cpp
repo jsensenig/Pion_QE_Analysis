@@ -29,15 +29,6 @@ bool Selections::DaughterCut(int p, int n) {
 
 }
 
-//// Funtion to count TTree arrays
-////----------------------------------------------------------------
-//template<typename T>
-//int Selections::Count( TTreeReaderArray<T> & arr, T a ) {
-//
-//  return std::count(arr.begin(), arr.end(), a );
-//
-//}
-
 bool Selections::IsTruthPionQE( Reader & rdr ) {
 
   if ( *rdr.primary_truth_Pdg !=  utils::pdg::kPdgPiP ) return false;

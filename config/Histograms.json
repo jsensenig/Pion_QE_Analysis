@@ -18,11 +18,75 @@
       "l_lim": 0
     },
     {
-      "name" : "h_prim_ke",
+      "name" : "h_truth_fspion_theta",
+      "type": "TH1D",
+      "axes": "FS Pion Theta;Angle [rad];Count",
+      "bins": 64,
+      "u_lim": 3.2,
+      "l_lim": -3.2
+    },
+    {
+      "name" : "h_truth_fspion_phi",
+      "type": "TH1D",
+      "axes": "FS Pion Phi;Angle [rad];Count",
+      "bins": 64,
+      "u_lim": 3.2,
+      "l_lim": -3.2
+    },
+    {
+      "name" : "h_truth_fsproton_theta",
+      "type": "TH1D",
+      "axes": "FS Proton Theta;Angle [rad];Count",
+      "bins": 64,
+      "u_lim": 3.2,
+      "l_lim": -3.2
+    },
+    {
+      "name" : "h_truth_fsproton_phi",
+      "type": "TH1D",
+      "axes": "FS Proton Phi;Angle [rad];Count",
+      "bins": 64,
+      "u_lim": 3.2,
+      "l_lim": -3.2
+    },
+    {
+      "name" : "h_truth_fsneutron_theta",
+      "type": "TH1D",
+      "axes": "FS Neutron Theta;Angle [rad];Count",
+      "bins": 64,
+      "u_lim": 3.2,
+      "l_lim": -3.2
+    },
+    {
+      "name" : "h_truth_fsneutron_phi",
+      "type": "TH1D",
+      "axes": "FS Neutron Phi;Angle [rad];Count",
+      "bins": 64,
+      "u_lim": 3.2,
+      "l_lim": -3.2
+    },
+    {
+      "name" : "h_prim_ke_all",
       "type": "TH1D",
       "axes": "Primary Kinetic Energy;KE;Count",
-      "bins": 120,
-      "u_lim": 3,
+      "bins": 40,
+      "u_lim": 1,
+      "l_lim": 0
+    },
+    {
+      "name" : "h_prim_ke_pion",
+      "type": "TH1D",
+      "axes": "Primary Kinetic Energy;KE;Count",
+      "bins": 40,
+      "u_lim": 1,
+      "l_lim": 0
+    },
+    {
+      "name" : "h_prim_ke_pionqe",
+      "type": "TH1D",
+      "axes": "Primary Kinetic Energy;KE;Count",
+      "bins": 40,
+      "u_lim": 1,
       "l_lim": 0
     },
     {

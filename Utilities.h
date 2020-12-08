@@ -12,8 +12,11 @@
 #include "TH2I.h"
 #include "TH2D.h"
 #include "TH2F.h"
+#include "TVector3.h"
+#include "TLorentzVector.h"
 
 #include <contrib/json.hpp>
+#include "Reader.h"
 
 using json = nlohmann::json;
 
@@ -113,4 +116,53 @@ namespace utils {
     else return nullptr;
 
   }
+
+  static std::map<std::string, double> MakePrimaryPIDMap( Reader & rdr, int plane=0 ) {
+
+    std::map<std::string, double> pid_map;
+
+    pid_map.emplace( "proton_chi2", rdr.primaryPID_Chi2Proton.At(plane) );
+    pid_map.emplace( "pion_chi2", rdr.primaryPID_Chi2Pion.At(plane) );
+    pid_map.emplace( "muon_chi2", rdr.primaryPID_Chi2Muon.At(plane) );
+    pid_map.emplace( "kaon_chi2", rdr.primaryPID_Chi2Kaon.At(plane) );
+
+    pid_map.emplace( "proton_chi2", rdr.primaryPID_PIDA.At(plane) );
+    pid_map.emplace( "truth_pdg", *rdr.primary_truth_Pdg );
+
+    return pid_map;
+
+  }
+
+//  static std::map<std::string, std::vector<double>> MakeDaughterPIDMap( Reader & rdr, int plane=0 ) {
+//
+//    std::map<std::string, double> pid_map;
+//
+//    pid_map.emplace( "proton_chi2", rdr.daughterPI );
+//    pid_map.emplace( "pion_chi2", rdr.daughterPID_Chi2Pion.At(plane) );
+//    pid_map.emplace( "muon_chi2", rdr.daughterPID_Chi2Muon.At(plane) );
+//    pid_map.emplace( "kaon_chi2", rdr.daughterPID_Chi2Kaon.At(plane) );
+//
+//    pid_map.emplace( "proton_chi2", rdr.daughterPID_PIDA.At(plane) );
+//    pid_map.emplace( "truth_pdg", *rdr.daughter_truth_Pdg );
+//
+//    return pid_map;
+//
+//  }
+
+  static double ThetaAngle( TVector3 dir, TVector3 v ) {
+
+    // Rotate vector v into dir reference frame then return the theta angle in that frame
+    v.RotateUz( dir.Unit() ) ;
+    return v.Theta();
+
+  }
+
+static double PhiAngle( TVector3 dir, TVector3 v ) {
+
+  // Rotate vector v into dir reference frame then return the phi angle in that frame
+    v.RotateUz( dir.Unit() ) ;
+    return v.Phi();
+
+  }
+
 }

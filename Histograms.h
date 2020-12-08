@@ -25,8 +25,8 @@ public:
   void WriteHistos( TString & out_file );
 
   // Hold all the histograms in these maps
-  std::map< std::string, std::shared_ptr<TH1> > th1_hists;
-  std::map< std::string , std::shared_ptr<TH2> > th2_hists;
+  std::map< std::string, std::unique_ptr<TH1> > th1_hists;
+  std::map< std::string, std::unique_ptr<TH2> > th2_hists;
 
 protected:
 

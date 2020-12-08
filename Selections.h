@@ -23,12 +23,25 @@ public:
 
   void Config();
 
-  // Function to count TTree arrays
-//----------------------------------------------------------------
+
+  // Function to count TTree array elements
+  //----------------------------------------------------------------
   template<typename T>
   int Count( TTreeReaderArray<T> & arr, T a ) {
 
-    return std::count(arr.begin(), arr.end(), a );
+    return std::count( arr.begin(), arr.end(), a );
+
+  }
+
+  // Function to find an element in a TTree arrays
+  //----------------------------------------------------------------
+  template<typename T>
+  T Find( TTreeReaderArray<T> & arr, T a ) {
+
+    auto it = std::find( arr.begin(), arr.end(), a );
+
+    if ( it != arr.end() ) return *it;
+    else return nullptr;
 
   }
 

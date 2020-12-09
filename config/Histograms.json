@@ -122,15 +122,15 @@
       "l_lim": 0
     },
     { 
-      "name" : "h_total_len",
+      "name" : "h_prim_len_all",
       "type": "TH1D",
-      "axes": "Total Length All;Len [cm];Count",
+      "axes": "Primary Length All;Len [cm];Count",
       "bins": 100,
       "u_lim": 500,
       "l_lim": 0
     },
     {                                            
-      "name" : "h_total_len_pionqe",                    
+      "name" : "h_len_pionqe",                    
       "type": "TH1D",                            
       "axes": "Total Length piQE;Len [cm];Count", 
       "bins": 100,                               
@@ -138,7 +138,7 @@
       "l_lim": 0
     },
     {                                            
-      "name" : "h_total_len_proton",                    
+      "name" : "h_len_proton",                    
       "type": "TH1D",                            
       "axes": "Total Length proton;Len [cm];Count", 
       "bins": 100,                               
@@ -146,7 +146,7 @@
       "l_lim": 0
     },
     {                                            
-      "name" : "h_total_len_positron",                    
+      "name" : "h_len_positron",                    
       "type": "TH1D",                            
       "axes": "Total Length proton;Len [cm];Count", 
       "bins": 100,                               
@@ -154,11 +154,43 @@
       "l_lim": 0
     },
     {                                            
-      "name" : "h_total_len_pion",                    
+      "name" : "h_len_pion",                    
       "type": "TH1D",                            
       "axes": "Total Length pion;Len [cm];Count", 
       "bins": 100,                               
       "u_lim": 500,                              
+      "l_lim": 0
+    },
+    {                                            
+      "name" : "h_len_daughter_kaon",                    
+      "type": "TH1D",                            
+      "axes": "Total Length Kaon;Len [cm];Count", 
+      "bins": 70,                               
+      "u_lim": 350,                              
+      "l_lim": 0
+    },
+    {                                            
+      "name" : "h_len_daughter_proton",                    
+      "type": "TH1D",                            
+      "axes": "Total Length Proton;Len [cm];Count", 
+      "bins": 70,                               
+      "u_lim": 350,                              
+      "l_lim": 0
+    },
+    {                                            
+      "name" : "h_len_daughter_muon",                    
+      "type": "TH1D",                            
+      "axes": "Total Length Muon;Len [cm];Count", 
+      "bins": 70,                               
+      "u_lim": 350,                              
+      "l_lim": 0
+    },
+    {                                            
+      "name" : "h_len_daughter_pion",                    
+      "type": "TH1D",                            
+      "axes": "Total Length Pion;Len [cm];Count", 
+      "bins": 70,                               
+      "u_lim": 350,                              
       "l_lim": 0
     },
     {

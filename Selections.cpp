@@ -4,6 +4,7 @@
 
 #include "Selections.h"
 #include "Utilities.h"
+#include <algorithm>
 
 
 Selections::Selections()
@@ -45,6 +46,50 @@ bool Selections::IsTruthPionQE( Reader & rdr ) {
   }
 
   return ( pion == 1 ) && ( nucleon > 0 );
+
+}
+
+int Selections::PrimaryChi2PID( Reader & rdr ) {
+
+  std::map<int, double> chi2_map;
+  double min = rdr.primaryPID_MinChi2.At(0);
+
+  chi2_map[utils::pdg::kPdgKP] = abs( rdr.primaryPID_Chi2Kaon.At(0) - min );
+  chi2_map[utils::pdg::kPdgMuon] = abs( rdr.primaryPID_Chi2Muon.At(0) - min );
+  chi2_map[utils::pdg::kPdgProton] = abs( rdr.primaryPID_Chi2Proton.At(0) - min );
+  chi2_map[utils::pdg::kPdgPiP] = abs( rdr.primaryPID_Chi2Pion.At(0) - min );
+
+  auto pdg = std::min_element( chi2_map.begin(), chi2_map.end(),
+                                [](const auto& l, const auto& r) { return l.second < r.second; } );
+
+  if ( pdg != chi2_map.end() ) return (*pdg).first;
+  else return 0;
+
+}
+
+std::vector<int> Selections::DaughterChi2PID( Reader & rdr ) {
+
+  std::map<int, double> chi2_map;
+  std::vector<int> daughter_pdg;
+
+  for ( int d = 0; d < *rdr.NDAUGHTERS; d++ ) { // loop over daughters
+
+    double min = rdr.daughterPID_MinChi2P0.At(d);
+
+    chi2_map[utils::pdg::kPdgKP] = abs( rdr.daughterPID_Chi2KaonP0.At(d) - min );
+    chi2_map[utils::pdg::kPdgMuon] = abs( rdr.daughterPID_Chi2MuonP0.At(d) - min );
+    chi2_map[utils::pdg::kPdgProton] = abs( rdr.daughterPID_Chi2ProtonP0.At(d) - min );
+    chi2_map[utils::pdg::kPdgPiP] = abs( rdr.daughterPID_Chi2PionP0.At(d) - min );
+
+    auto pdg = std::min_element( chi2_map.begin(), chi2_map.end(),
+                                 []( const auto & l, const auto & r ) { return l.second < r.second; } );
+
+    if ( pdg != chi2_map.end()) daughter_pdg.emplace_back( ( *pdg ).first );
+    else daughter_pdg.emplace_back( 0 );
+
+  }
+
+  return daughter_pdg;
 
 }
 

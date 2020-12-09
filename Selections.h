@@ -21,6 +21,10 @@ public:
 
   bool IsTruthPionQE( Reader & rdr );
 
+  int PrimaryChi2PID( Reader & rdr );
+
+  std::vector<int> DaughterChi2PID( Reader & rdr );
+
   void Config();
 
 

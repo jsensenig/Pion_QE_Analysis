@@ -39,7 +39,24 @@ namespace utils {
     const int kPdgNeutron = 2112; //
     const int kPdgAntiNeutron = -2112; //
 
+    static std::string pdg2string( int p ){
+
+      switch ( p ) {
+        case kPdgMuon     : return "Muon";
+        case kPdgPiP      : return "Pion";
+        case kPdgKP       : return "Kaon";
+        case kPdgProton   : return "Proton";
+        case kPdgNeutron  : return "Neutron";
+        case kPdgPositron : return "Positron";
+        case kPdgElectron : return "Electron";
+        default           : return 0;
+      }
+
+    }
+
   }
+
+
 
 
 //@brief Utility to load a list of files to process from a file.
@@ -82,9 +99,9 @@ namespace utils {
 
   static std::unique_ptr<TH1> Create1dHist( json & c ) {
 
-    std::string name = c.at("name").get<std::string>();
-    std::string type = c.at("type").get<std::string>();
-    std::string axes = c.at("axes").get<std::string>();
+    auto name = c.at("name").get<std::string>();
+    auto type = c.at("type").get<std::string>();
+    auto axes = c.at("axes").get<std::string>();
 
     int bins     = c.at("bins").get<int>();
     double u_lim = c.at("u_lim").get<double>();
@@ -99,9 +116,9 @@ namespace utils {
 
   static std::unique_ptr<TH2> Create2dHist( json & c ) {
 
-    std::string name = c.at("name").get<std::string>();
-    std::string type = c.at("type").get<std::string>();
-    std::string axes = c.at("axes").get<std::string>();
+    auto name = c.at("name").get<std::string>();
+    auto type = c.at("type").get<std::string>();
+    auto axes = c.at("axes").get<std::string>();
 
     int xbins     = c.at("xbins").get<int>();
     double xu_lim = c.at("xu_lim").get<double>();
@@ -133,23 +150,7 @@ namespace utils {
 
   }
 
-//  static std::map<std::string, std::vector<double>> MakeDaughterPIDMap( Reader & rdr, int plane=0 ) {
-//
-//    std::map<std::string, double> pid_map;
-//
-//    pid_map.emplace( "proton_chi2", rdr.daughterPI );
-//    pid_map.emplace( "pion_chi2", rdr.daughterPID_Chi2Pion.At(plane) );
-//    pid_map.emplace( "muon_chi2", rdr.daughterPID_Chi2Muon.At(plane) );
-//    pid_map.emplace( "kaon_chi2", rdr.daughterPID_Chi2Kaon.At(plane) );
-//
-//    pid_map.emplace( "proton_chi2", rdr.daughterPID_PIDA.At(plane) );
-//    pid_map.emplace( "truth_pdg", *rdr.daughter_truth_Pdg );
-//
-//    return pid_map;
-//
-//  }
-
-  static double ThetaAngle( TVector3 dir, TVector3 v ) {
+  static double ThetaAngle( const TVector3& dir, TVector3 v ) {
 
     // Rotate vector v into dir reference frame then return the theta angle in that frame
     v.RotateUz( dir.Unit() ) ;
@@ -157,11 +158,44 @@ namespace utils {
 
   }
 
-static double PhiAngle( TVector3 dir, TVector3 v ) {
+  static double PhiAngle( const TVector3& dir, TVector3 v ) {
 
   // Rotate vector v into dir reference frame then return the phi angle in that frame
     v.RotateUz( dir.Unit() ) ;
     return v.Phi();
+
+  }
+
+  // Template function to count TTree array elements
+  //----------------------------------------------------------------
+  template<typename T>
+  int Count( TTreeReaderArray<T> & arr, T a ) {
+
+    return std::count( arr.begin(), arr.end(), a );
+
+  }
+
+  // Template function to find an element in a TTree array
+  //----------------------------------------------------------------
+  template<typename T>
+  T Find( TTreeReaderArray<T> & arr, T a ) {
+
+    auto it = std::find( arr.begin(), arr.end(), a );
+
+    if ( it != arr.end() ) return *it;
+    else return -1;
+
+  }
+
+  // Template function to find an element index in a TTree array
+  //----------------------------------------------------------------
+  template<typename T>
+  int FindIndex( TTreeReaderArray<T> & arr, T a ) {
+
+    auto it = std::find( arr.begin(), arr.end(), a );
+
+    if ( it != arr.end() ) return it - arr.begin();
+    else return -1;
 
   }
 

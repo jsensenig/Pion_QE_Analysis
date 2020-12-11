@@ -15,39 +15,19 @@ public:
   Selections();
   virtual ~Selections();
 
-  bool PIDACut( double pida );
+  bool PIDACut( double pida ) const;
 
-  bool DaughterCut( int p, int n );
+  bool DaughterCut( int p, int n ) const;
 
-  bool IsTruthPionQE( Reader & rdr );
+  static bool IsTruthPionQE( Reader & rdr );
 
-  int PrimaryChi2PID( Reader & rdr );
+  static bool IsTruthPi2Pi( Reader & rdr );
 
-  std::vector<int> DaughterChi2PID( Reader & rdr );
+  static int PrimaryChi2PID( Reader & rdr );
+
+  static std::vector<int> DaughterChi2PID( Reader & rdr );
 
   void Config();
-
-
-  // Function to count TTree array elements
-  //----------------------------------------------------------------
-  template<typename T>
-  int Count( TTreeReaderArray<T> & arr, T a ) {
-
-    return std::count( arr.begin(), arr.end(), a );
-
-  }
-
-  // Function to find an element in a TTree arrays
-  //----------------------------------------------------------------
-  template<typename T>
-  T Find( TTreeReaderArray<T> & arr, T a ) {
-
-    auto it = std::find( arr.begin(), arr.end(), a );
-
-    if ( it != arr.end() ) return *it;
-    else return nullptr;
-
-  }
 
 protected:
 

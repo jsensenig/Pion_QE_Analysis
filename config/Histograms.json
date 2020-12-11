@@ -68,25 +68,33 @@
     {
       "name" : "h_prim_ke_all",
       "type": "TH1D",
-      "axes": "Primary Kinetic Energy;KE;Count",
-      "bins": 40,
-      "u_lim": 1,
+      "axes": "Primary Kinetic Energy;KE [MeV];Count",
+      "bins": 200,
+      "u_lim": 2000,
       "l_lim": 0
     },
     {
       "name" : "h_prim_ke_pion",
       "type": "TH1D",
-      "axes": "Primary Kinetic Energy;KE;Count",
-      "bins": 40,
-      "u_lim": 1,
+      "axes": "Primary Kinetic Energy Pion;KE [MeV];Count",
+      "bins": 120,
+      "u_lim": 1200,
+      "l_lim": 0
+    },
+    {
+      "name" : "h_truth_prim_ke_pion",
+      "type": "TH1D",
+      "axes": "Truth Primary Kinetic Energy Pion;KE [MeV];Count",
+      "bins": 200,
+      "u_lim": 2,
       "l_lim": 0
     },
     {
       "name" : "h_prim_ke_pionqe",
       "type": "TH1D",
-      "axes": "Primary Kinetic Energy;KE;Count",
-      "bins": 40,
-      "u_lim": 1,
+      "axes": "Primary Kinetic Energy QE Pion;KE [MeV];Count",
+      "bins": 120,
+      "u_lim": 1200,
       "l_lim": 0
     },
     {
@@ -164,7 +172,7 @@
     {                                            
       "name" : "h_len_daughter_kaon",                    
       "type": "TH1D",                            
-      "axes": "Total Length Kaon;Len [cm];Count", 
+      "axes": "Track Length Kaon;Len [cm];Count", 
       "bins": 70,                               
       "u_lim": 350,                              
       "l_lim": 0
@@ -172,7 +180,7 @@
     {                                            
       "name" : "h_len_daughter_proton",                    
       "type": "TH1D",                            
-      "axes": "Total Length Proton;Len [cm];Count", 
+      "axes": "Track Length Proton;Len [cm];Count", 
       "bins": 70,                               
       "u_lim": 350,                              
       "l_lim": 0
@@ -180,7 +188,7 @@
     {                                            
       "name" : "h_len_daughter_muon",                    
       "type": "TH1D",                            
-      "axes": "Total Length Muon;Len [cm];Count", 
+      "axes": "Track Length Muon;Len [cm];Count", 
       "bins": 70,                               
       "u_lim": 350,                              
       "l_lim": 0
@@ -188,7 +196,15 @@
     {                                            
       "name" : "h_len_daughter_pion",                    
       "type": "TH1D",                            
-      "axes": "Total Length Pion;Len [cm];Count", 
+      "axes": "Track Length Pion;Len [cm];Count", 
+      "bins": 70,                               
+      "u_lim": 350,                              
+      "l_lim": 0
+    },
+    {                                            
+      "name" : "h_len_daughter_neutron",                    
+      "type": "TH1D",                            
+      "axes": "Track Length Neutron;Len [cm];Count", 
       "bins": 70,                               
       "u_lim": 350,                              
       "l_lim": 0
@@ -328,13 +344,49 @@
       "bins": 80,
       "u_lim": 80,
       "l_lim": 0
+    },
+    {
+      "name" : "h_omega_350",
+      "type": "TH1D",
+      "axes": "Energy Loss q<350;omega [MeV];Count",
+      "bins": 100,
+      "u_lim": 1000,
+      "l_lim": 0
+    },
+    {
+      "name" : "h_omega_350_550",
+      "type": "TH1D",
+      "axes": "Energy Loss 350<q<550;omega [MeV];Count",
+      "bins": 100,
+      "u_lim": 1000,
+      "l_lim": 0
+    },
+    {
+      "name" : "h_omega_550",
+      "type": "TH1D",
+      "axes": "Energy Loss 550<q;omega [MeV];Count",
+      "bins": 100,
+      "u_lim": 1000,
+      "l_lim": 0
     }
+
   ],
   "2d_hists": [
     {                                            
       "name" : "h_neutron_proton_pionqe",
       "type": "TH2I",
       "axes": "Number of Nucleons;Protons;Neutrons",
+      "xbins": 10,
+      "ybins": 10,
+      "xu_lim": 10,
+      "xl_lim": 0,
+      "yu_lim": 10,
+      "yl_lim": 0
+    },
+    {                                            
+      "name" : "h_neutron_proton_reco_nucleon",
+      "type": "TH2I",
+      "axes": "Number of Reco-truth Nucleons;Protons;Neutrons",
       "xbins": 10,
       "ybins": 10,
       "xu_lim": 10,
@@ -374,8 +426,29 @@
       "xl_lim": 0,
       "yu_lim": 15,
       "yl_lim": 0
+    },
+    {                                            
+      "name" : "h_prim_truth_chi2",
+      "type": "TH2F",
+      "axes": "Chi2 Pion;Chi2;Truth Pdg",
+      "xbins": 4,
+      "ybins": 4,
+      "xu_lim": 4,
+      "xl_lim": 0,
+      "yu_lim": 4,
+      "yl_lim": 0
+    },
+    {                                            
+      "name" : "h_daughter_truth_chi2",
+      "type": "TH2F",
+      "axes": "Chi2 Pion;Chi2;Truth Pdg",
+      "xbins": 4,
+      "ybins": 4,
+      "xu_lim": 4,
+      "xl_lim": 0,
+      "yu_lim": 4,
+      "yl_lim": 0
     }
-
   ]
 
 }

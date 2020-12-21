@@ -49,7 +49,7 @@ namespace utils {
         case kPdgNeutron  : return "Neutron";
         case kPdgPositron : return "Positron";
         case kPdgElectron : return "Electron";
-        default           : return 0;
+        default           : return "Unknown";
       }
 
     }
@@ -67,8 +67,7 @@ namespace utils {
     std::vector<TString> file_vec;
     std::string line;
 
-    std::ifstream file;
-    file.open(file_list);
+    std::ifstream file(file_list);
 
     if (file.is_open()) {
       while (getline(file, line)) {
@@ -76,7 +75,7 @@ namespace utils {
         file_vec.emplace_back(line);
       }
       file.close();
-    } else std::cout << "Unable to open file" << std::endl;
+    } else std::cout << "Unable to open file " << file_list << std::endl;
 
     return file_vec;
 
@@ -93,7 +92,19 @@ namespace utils {
 
    }
 
-    return json::parse(injson);
+    json parsed;
+    try {
+
+      parsed = json::parse( injson );
+
+    } catch ( json::exception &ex ) {
+
+      std::cout << " Parse error in file " << file << " " << ex.what() << std::endl;
+      return nullptr;
+
+    }
+
+    return parsed;
 
   }
 
@@ -150,23 +161,42 @@ namespace utils {
 
   }
 
+  //------------------------------------------------------------
+  // Rotate vector v into dir reference frame then return the theta angle in that frame
   static double ThetaAngle( const TVector3& dir, TVector3 v ) {
 
-    // Rotate vector v into dir reference frame then return the theta angle in that frame
     v.RotateUz( dir.Unit() ) ;
     return v.Theta();
 
   }
 
+  //-------------------------------------------------------------
+  // Rotate vector v into dir reference frame then return the phi angle in that frame
   static double PhiAngle( const TVector3& dir, TVector3 v ) {
 
-  // Rotate vector v into dir reference frame then return the phi angle in that frame
     v.RotateUz( dir.Unit() ) ;
     return v.Phi();
 
   }
 
-  // Template function to count TTree array elements
+  //-------------------------------------------------------------
+  // Calculate kinetic energy for a given momentum and mass
+  static double CalculateKE( TVector3 & p, double m ) {
+
+    return sqrt( p.Mag2() + pow(m, 2) ) - m;
+
+  }
+
+  //-------------------------------------------------------------
+  // Calculate kinetic energy for a given momentum and mass
+  static double CalculateKE( double p, double m ) {
+
+    return sqrt( pow(p, 2) + pow(m, 2) ) - m;
+
+  }
+
+
+  // Template function to count the occurrence of a specified TTree array elements
   //----------------------------------------------------------------
   template<typename T>
   int Count( TTreeReaderArray<T> & arr, T a ) {
@@ -187,7 +217,7 @@ namespace utils {
 
   }
 
-  // Template function to find an element index in a TTree array
+  // Template function to find and return an element index in a TTree array
   //----------------------------------------------------------------
   template<typename T>
   int FindIndex( TTreeReaderArray<T> & arr, T a ) {

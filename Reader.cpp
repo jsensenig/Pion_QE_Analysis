@@ -6,7 +6,7 @@
 
 
 Reader::Reader( TFile * file ) :
- infile(file) { }
+ infile( file ) { }
 
 Reader::~Reader()
 {  }

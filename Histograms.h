@@ -20,7 +20,7 @@ public:
   Histograms();
   virtual ~Histograms();
 
-  void Config();
+  bool Config();
   void ConfigureHistos();
   void WriteHistos( TString & out_file );
 

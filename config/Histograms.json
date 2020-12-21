@@ -82,6 +82,14 @@
       "l_lim": 0
     },
     {
+      "name" : "h_prim_ke_pion_truth",
+      "type": "TH1D",
+      "axes": "Primary Kinetic Energy Pion Truth;KE [MeV];Count",
+      "bins": 50,
+      "u_lim": 500,
+      "l_lim": 0
+    },
+    {
       "name" : "h_truth_prim_ke_pion",
       "type": "TH1D",
       "axes": "Truth Primary Kinetic Energy Pion;KE [MeV];Count",
@@ -373,9 +381,9 @@
   ],
   "2d_hists": [
     {                                            
-      "name" : "h_neutron_proton_pionqe",
+      "name" : "h_neutron_proton_pi_pi",
       "type": "TH2I",
-      "axes": "Number of Nucleons;Protons;Neutrons",
+      "axes": "Number of Daughter Truth Nucleons;Protons;Neutrons",
       "xbins": 10,
       "ybins": 10,
       "xu_lim": 10,
@@ -386,7 +394,7 @@
     {                                            
       "name" : "h_neutron_proton_reco_nucleon",
       "type": "TH2I",
-      "axes": "Number of Reco-truth Nucleons;Protons;Neutrons",
+      "axes": "Number of Reco Truth Nucleons;Protons;Neutrons",
       "xbins": 10,
       "ybins": 10,
       "xu_lim": 10,
@@ -408,7 +416,7 @@
     {                                            
       "name" : "h_neutron_proton_pion",
       "type": "TH2I",
-      "axes": "Number of Nucleons Pion;Protons;Neutrons",
+      "axes": "Number of Daughter Truth Nucleons;Protons;Neutrons",
       "xbins": 15,
       "ybins": 15,
       "xu_lim": 15,
@@ -431,9 +439,9 @@
       "name" : "h_prim_truth_chi2",
       "type": "TH2F",
       "axes": "Chi2 Pion;Chi2;Truth Pdg",
-      "xbins": 4,
+      "xbins": 5,
       "ybins": 4,
-      "xu_lim": 4,
+      "xu_lim": 5,
       "xl_lim": 0,
       "yu_lim": 4,
       "yl_lim": 0
@@ -442,13 +450,36 @@
       "name" : "h_daughter_truth_chi2",
       "type": "TH2F",
       "axes": "Chi2 Pion;Chi2;Truth Pdg",
-      "xbins": 4,
+      "xbins": 5,
       "ybins": 4,
-      "xu_lim": 4,
+      "xu_lim": 5,
       "xl_lim": 0,
       "yu_lim": 4,
       "yl_lim": 0
+    },
+    {                                            
+      "name" : "h_prim_chi2_pida_all",
+      "type": "TH2D",
+      "axes": ";Min Chi2;<PIDA>",
+      "xbins": 5,
+      "ybins": 20,
+      "xu_lim": 5,
+      "xl_lim": 0,
+      "yu_lim": 40,
+      "yl_lim": 0
+    },
+    {                                            
+      "name" : "h_pdaughter_mom_multiplicity",
+      "type": "TH2D",
+      "axes": ";Multiplicity;p [MeV]",
+      "xbins": 10,
+      "ybins": 20,
+      "xu_lim": 10,
+      "xl_lim": 0,
+      "yu_lim": 1.0,
+      "yl_lim": 0
     }
+
   ]
 
 }

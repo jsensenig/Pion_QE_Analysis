@@ -7,9 +7,9 @@
 
 
 //----------------------------------------------------------------
-void Pion_QE_MC_Selection::ReadData(TFile *file) {
+void Pion_QE_MC_Selection::ReadData( TFile * file ) {
 
-  std::cout << "Loading up reader" << std::endl;
+  std::cout << "Loading reader" << std::endl;
   Config();
 
   // ROOT event reader
@@ -21,18 +21,6 @@ void Pion_QE_MC_Selection::ReadData(TFile *file) {
   // Loop over trees
   while ( rdr.Next() ) {
 
-    _hists.th1_hists["h_prim_ke_all"] -> Fill( rdr.primaryKineticEnergy.At(0) );
-
-    int ptruth_pdg = *rdr.primary_truth_Pdg;
-
-
-     if ( ptruth_pdg == utils::pdg::kPdgMuon || ptruth_pdg == utils::pdg::kPdgPositron ||
-          ptruth_pdg == utils::pdg::kPdgProton || ptruth_pdg == utils::pdg::kPdgPiP ) {
-       _hists.th1_hists["h_prim_pida_all"] -> Fill( rdr.primaryPID_PIDA.At(0) ); // plane 0 = collection
-     }
-
-    _hists.th1_hists["h_beam_e"] -> Fill(*rdr.beamtrackEnergy);
-    _hists.th1_hists["h_prim_len_all"] -> Fill( *rdr.primaryLength );
 
     // Create histograms of primary reco and associated truth and daughter truth particles
     ProcessPrimary( rdr );
@@ -43,12 +31,24 @@ void Pion_QE_MC_Selection::ReadData(TFile *file) {
     // Create histograms of daughter reco and associated truth particles
     ProcessRecoDaughter( rdr );
 
-    if ( ptruth_pdg != utils::pdg::kPdgPiP ) continue;  // Only events with pion mother below this
+    if ( rdr.primaryPID_PIDA.At(0) != -999 ) {
+      _hists.th1_hists["h_prim_pida_all"] -> Fill( rdr.primaryPID_PIDA.At(0) ); // plane 0 = collection
+    }
 
-    // Calculate the energy loss for all pion -> pion scattering
+    //_hists.th2_hists["h_prim_chi2_pida_all"] -> Fill( rdr.primaryPID_MinChi2.At(0), rdr.primaryPID_PIDA.At(0), 1 );
+    _hists.th2_hists["h_prim_chi2_pida_all"] -> Fill( utils::pdg::pdg2string(rdr.primaryPID_Pdg.At(0)).c_str(), rdr.primaryPID_PIDA.At(0), 1 );
+
+    _hists.th1_hists["h_prim_ke_all"] -> Fill( rdr.primaryKineticEnergy.At(0) );
+    _hists.th1_hists["h_beam_e"] -> Fill(*rdr.beamtrackEnergy);
+    _hists.th1_hists["h_prim_len_all"] -> Fill( *rdr.primaryLength );
+
+    //---- Only events with pion mother below this selection -----
+    if ( *rdr.primary_truth_Pdg != utils::pdg::kPdgPiP ) continue;
+
+    // Calculate the pion energy loss for all pion -> pion + X scattering where X >= 0 particles
     if ( Selections::IsTruthPi2Pi( rdr ) ) {
-      int pi = utils::FindIndex( rdr.primary_truthdaughter_Pdg, utils::pdg::kPdgPiP );
-
+      int pi = utils::FindIndex<int>( rdr.primary_truthdaughter_Pdg, utils::pdg::kPdgPiP );
+      //CalculateELoss( rdr, pi );
       TLorentzVector primary_pi_mom( rdr.primary_truth_Momentum.At( 0 ), rdr.primary_truth_Momentum.At( 1 ),
                                      rdr.primary_truth_Momentum.At( 2 ), rdr.primary_truth_Momentum.At( 3 ));
       TLorentzVector truthdaughter_pi_mom( rdr.primary_truthdaughter_MomentumX.At( pi ), rdr.primary_truthdaughter_MomentumY.At( pi ),
@@ -56,17 +56,19 @@ void Pion_QE_MC_Selection::ReadData(TFile *file) {
       CalculateELoss( primary_pi_mom, truthdaughter_pi_mom );
     }
 
-    // Only pion QE events after this selection
+    //---- Only pion QE events after this selection ----
     if ( !Selections::IsTruthPionQE( rdr ) ) continue;
-    _pionqe += 1;
+
 
     _hists.th1_hists["h_prim_ke_pionqe"] -> Fill( rdr.primaryKineticEnergy.At(0) );
     _hists.th1_hists["h_nproton"] -> Fill( utils::Count<int>( rdr.primary_truthdaughter_Pdg, utils::pdg::kPdgProton ) );
     _hists.th1_hists["h_nneutron"] -> Fill( utils::Count<int>( rdr.primary_truthdaughter_Pdg, utils::pdg::kPdgNeutron ) );
     _hists.th1_hists["h_len_pionqe"] -> Fill( *rdr.primaryLength );
+    _pionqe += 1;
 
   }
 
+  // Write all histograms to file
   _hists.WriteHistos( _outfile );
 
   std::cout << "Pion QE 1 pion: " <<  _pionqe << " Truth 1 pion: " << _piontruth << " Reco 1 pion: " << _pionreco << std::endl;
@@ -77,7 +79,8 @@ void Pion_QE_MC_Selection::ReadData(TFile *file) {
 void Pion_QE_MC_Selection::ProcessPrimary( Reader &rdr ) {
 
   // Get primary particle chi2 PID
-  int chi2_pdg = Selections::PrimaryChi2PID( rdr );
+  int chi2_pdg = rdr.primaryPID_Pdg.At(0); // Min chi2 pdg from collection plane
+
   // Count nucleon truth daughters
   int np = utils::Count<int>(rdr.primary_truthdaughter_Pdg, utils::pdg::kPdgProton );
   int nn = utils::Count<int>(rdr.primary_truthdaughter_Pdg, utils::pdg::kPdgNeutron );
@@ -89,6 +92,7 @@ void Pion_QE_MC_Selection::ProcessPrimary( Reader &rdr ) {
     nn = utils::Count<int>(rdr.primary_truthdaughter_Pdg, utils::pdg::kPdgNeutron );
     _hists.th2_hists["h_neutron_proton_pion"] -> Fill( np, nn );
     _hists.th1_hists["h_prim_ke_pion"] -> Fill( rdr.primaryKineticEnergy.At(0) );
+    _hists.th1_hists["h_prim_ke_pion_truth"] -> Fill ( utils::CalculateKE( rdr.primary_truth_Momentum.At(0), *rdr.primary_truth_Mass )*1.e3 );
     _hists.th2_hists["h_prim_truth_chi2"] -> Fill( utils::pdg::pdg2string(chi2_pdg).c_str(), utils::pdg::pdg2string(211).c_str(),1);
   }
   else if ( *rdr.primary_truth_Pdg == utils::pdg::kPdgProton ) { // primary protons
@@ -127,6 +131,7 @@ void Pion_QE_MC_Selection::ProcessPrimaryTruthDaughter(Reader &rdr) {
 
   // Get the daughter chi2 pid
   std::vector<int> daughter_pdg = Selections::DaughterChi2PID( rdr );
+  //rdr.daughterPID_PdgP0;
 
   // Loop over daughter reco and associated truth particles
   int np = 0, nn = 0, pi = 0;
@@ -143,7 +148,7 @@ void Pion_QE_MC_Selection::ProcessPrimaryTruthDaughter(Reader &rdr) {
       _hists.th1_hists["h_truth_fspion_theta"] -> Fill( utils::ThetaAngle( prim_enddir, daughter_startdir ) );
       _hists.th1_hists["h_truth_fspion_phi"] -> Fill( utils::PhiAngle( prim_enddir, daughter_startdir ) );
       _hists.th1_hists["h_len_daughter_pion"] -> Fill ( rdr.daughter_truth_TotalLength.At(i) );
-      if (!daughter_pdg.empty()) _hists.th2_hists["h_daughter_truth_chi2"] -> Fill( utils::pdg::pdg2string(daughter_pdg.at(0)).c_str(), utils::pdg::pdg2string(211).c_str(),1);
+      _hists.th2_hists["h_daughter_truth_chi2"] -> Fill( utils::pdg::pdg2string(rdr.daughterPID_PdgP0.At(i)).c_str(), utils::pdg::pdg2string(211).c_str(),1) ;
       pi += 1;
     }
     else if ( rdr.primary_truthdaughter_Pdg.At(i) == utils::pdg::kPdgProton ) { // daughter proton
@@ -152,7 +157,7 @@ void Pion_QE_MC_Selection::ProcessPrimaryTruthDaughter(Reader &rdr) {
       _hists.th1_hists["h_truth_fsproton_theta"] -> Fill( utils::ThetaAngle( prim_enddir, daughter_startdir ) );
       _hists.th1_hists["h_truth_fsproton_phi"] -> Fill( utils::PhiAngle( prim_enddir, daughter_startdir ) );
       _hists.th1_hists["h_len_daughter_proton"] -> Fill ( rdr.daughter_truth_TotalLength.At(i) );
-      if (!daughter_pdg.empty()) _hists.th2_hists["h_daughter_truth_chi2"] -> Fill( utils::pdg::pdg2string(daughter_pdg.at(0)).c_str(), utils::pdg::pdg2string(2212).c_str(),1);
+      _hists.th2_hists["h_daughter_truth_chi2"] -> Fill( utils::pdg::pdg2string(rdr.daughterPID_PdgP0.At(i)).c_str(), utils::pdg::pdg2string(2212).c_str(),1) ;
     }
     else if ( rdr.primary_truthdaughter_Pdg.At(i) == utils::pdg::kPdgNeutron ) { // daughter neutron
       nn += 1;
@@ -167,11 +172,11 @@ void Pion_QE_MC_Selection::ProcessPrimaryTruthDaughter(Reader &rdr) {
     else if ( rdr.primary_truthdaughter_Pdg.At(i) == utils::pdg::kPdgMuon ) { // daughter muon
       _hists.th1_hists["h_daughter_pida_muon"] -> Fill( rdr.daughterPID_PIDAP0.At(i) ); // plane 0 = collection
       _hists.th1_hists["h_len_daughter_muon"] -> Fill ( rdr.daughter_truth_TotalLength.At(i) );
-      if (!daughter_pdg.empty()) _hists.th2_hists["h_daughter_truth_chi2"] -> Fill( utils::pdg::pdg2string(daughter_pdg.at(0)).c_str(), utils::pdg::pdg2string(13).c_str(),1);
+      _hists.th2_hists["h_daughter_truth_chi2"] -> Fill( utils::pdg::pdg2string(rdr.daughterPID_PdgP0.At(i)).c_str(), utils::pdg::pdg2string(13).c_str(),1) ;
     }
     else if ( rdr.primary_truthdaughter_Pdg.At(i) == utils::pdg::kPdgKP ) {
       _hists.th1_hists["h_len_daughter_kaon"] -> Fill ( rdr.daughter_truth_TotalLength.At(i) );
-      if (!daughter_pdg.empty()) _hists.th2_hists["h_daughter_truth_chi2"] -> Fill( utils::pdg::pdg2string(daughter_pdg.at(0)).c_str(), utils::pdg::pdg2string(321).c_str(),1);
+      _hists.th2_hists["h_daughter_truth_chi2"] -> Fill( utils::pdg::pdg2string(rdr.daughterPID_PdgP0.At(i)).c_str(), utils::pdg::pdg2string(321).c_str(),1) ;
     }
 
   }
@@ -179,8 +184,9 @@ void Pion_QE_MC_Selection::ProcessPrimaryTruthDaughter(Reader &rdr) {
   if ( pi == 1 ) { // check if there is 1 daughter pion
     int p = utils::Count<int>( rdr.primary_truthdaughter_Pdg, utils::pdg::kPdgProton );
     int n = utils::Count<int>( rdr.primary_truthdaughter_Pdg, utils::pdg::kPdgNeutron );
-    _hists.th2_hists["h_neutron_proton_pionqe"] -> Fill( p, n );
+    _hists.th2_hists["h_neutron_proton_pi_pi"] -> Fill( p, n );
     _piontruth += 1;
+    std::cout << "Primary Evt = " << *rdr.event << std::endl;
   }
 
 }
@@ -189,13 +195,33 @@ void Pion_QE_MC_Selection::ProcessPrimaryTruthDaughter(Reader &rdr) {
 void Pion_QE_MC_Selection::ProcessRecoDaughter(Reader &rdr) {
 
   int reco_pi_cnt = utils::Count<int>( rdr.daughter_truth_Pdg, utils::pdg::kPdgPiP );
+  int reco_pi_idx = utils::FindIndex<int>( rdr.daughter_truth_Pdg, utils::pdg::kPdgPiP );
+  int tpion = utils::Count<int>( rdr.primary_truthdaughter_Pdg, utils::pdg::kPdgPiP );
 
   if ( reco_pi_cnt == 1 ) { // check if there is 1 daughter pion
-    int p = utils::Count<int>( rdr.primary_truthdaughter_Pdg, utils::pdg::kPdgProton );
-    int n = utils::Count<int>( rdr.primary_truthdaughter_Pdg, utils::pdg::kPdgNeutron );
+    std::cout << "Evt = " << *rdr.event << " Reco truth = " << reco_pi_cnt << " Primary truth = " << tpion << std::endl;
+    int p = utils::Count<int>( rdr.daughter_truth_Pdg, utils::pdg::kPdgProton );
+    int n = utils::Count<int>( rdr.daughter_truth_Pdg, utils::pdg::kPdgNeutron );
     _hists.th2_hists["h_neutron_proton_reco_nucleon"] -> Fill( p, n );
+    //_hists.th2_hists["h_pdaughter_mom_multiplicity"] -> Fill( (p+n), rdr.truth At( reco_pi_idx ) );
     _pionreco += 1;
   }
+
+}
+
+// -----------------------------------------------
+void Pion_QE_MC_Selection::CalculateELoss( Reader & rdr, int daughter ) {
+
+  TVector3 p(rdr.primary_truth_Momentum.At(0), rdr.primary_truth_Momentum.At(1), rdr.primary_truth_Momentum.At(2));
+  TVector3 pp(rdr.daughter_truth_MomentumX.At(daughter), rdr.daughter_truth_MomentumY.At(daughter), rdr.daughter_truth_MomentumZ.At(daughter));
+
+  double omega = rdr.primaryKineticEnergy.At(0) - rdr.daughterKineticEnergyP0.At(daughter);
+  //double q = std::sqrt( (-q_vec.Mag2() * 1.e3) + omega ); // sqrt( Q2 + q0 )
+  double q = (p - pp).Mag() * 1.e3; // Convert all GeV -> Mev
+
+  if ( q < 350. ) _hists.th1_hists["h_omega_350"] -> Fill( omega );
+  else if ( q >= 350. && q < 550 ) _hists.th1_hists["h_omega_350_550"] -> Fill( omega );
+  else if ( q >= 550. ) _hists.th1_hists["h_omega_550"] -> Fill( omega );
 
 }
 
@@ -205,7 +231,7 @@ void Pion_QE_MC_Selection::CalculateELoss( const TLorentzVector& k, const TLoren
   TLorentzVector q_vec = k - kp;
   // Convert all GeV -> Mev
   double omega = q_vec.E() * 1.e3;
-  double q = std::sqrt( (-q_vec.Mag2() * 1.e3) + omega ); // sqrt( Q2 + q0 )
+  double q = q_vec.Vect().Mag() * 1.e3;
 
   if ( q < 350. ) _hists.th1_hists["h_omega_350"] -> Fill( omega );
   else if ( q >= 350. && q < 550 ) _hists.th1_hists["h_omega_350_550"] -> Fill( omega );
@@ -216,7 +242,7 @@ void Pion_QE_MC_Selection::CalculateELoss( const TLorentzVector& k, const TLoren
 void Pion_QE_MC_Selection::Config() {
 
   json conf = utils::LoadConfig( _config_file );
-  if ( conf == 0 ) return;
+  if ( conf == 0x0 ) return;
 
   _outfile = conf.at("out_file").get<std::string>();
   std::cout << "Output file: " << _outfile << std::endl;

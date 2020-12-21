@@ -106,7 +106,7 @@ std::vector<int> Selections::DaughterChi2PID( Reader & rdr ) {
 void Selections::Config() {
 
   json conf = utils::LoadConfig( _config_file );
-  if ( conf == 0 ) return;
+  if ( conf == 0x0 ) return;
 
   upper_PIDACut = conf.at("PIDACut").at("upper").get<int>();
   lower_PIDACut = conf.at("PIDACut").at("lower").get<int>();

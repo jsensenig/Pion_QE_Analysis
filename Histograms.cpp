@@ -6,7 +6,7 @@
 
 
 Histograms::Histograms()
-{ Config(); }
+{ if ( !Config() ) return; }
 
 Histograms::~Histograms()
 { ; }
@@ -42,6 +42,7 @@ void Histograms::WriteHistos( TString & out_file ) {
   }
 
   for ( auto & h : th2_hists ) {
+    std::cout << h.first << std::endl;
     h.second -> Write();
   }
 
@@ -60,9 +61,10 @@ bool Histograms::OpenFile( TString & out_file ) {
   return true;
 }
 
-void Histograms::Config() {
+bool Histograms::Config() {
 
   _conf = utils::LoadConfig( _config_file );
-  if ( _conf == 0 ) return;
+  if ( _conf == 0x0 ) return false;
+  return true;
 
 }

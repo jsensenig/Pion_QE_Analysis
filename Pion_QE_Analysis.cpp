@@ -18,7 +18,6 @@ void ProcessFiles() {
 
   Pion_QE_MC_Selection Sel;
 
-//  std::string f_list = "../files.txt";
   std::vector<TString> file_list = utils::LoadFileList( files );
 
   if ( file_list.empty() ) return;
@@ -34,7 +33,7 @@ void ProcessFiles() {
 
     }
 
-    Sel.ReadData(proc_file);
+    Sel.ReadData( proc_file );
 
   }
 
@@ -43,7 +42,7 @@ void ProcessFiles() {
 void Config() {
 
   json conf = utils::LoadConfig( config_file );
-  if ( conf == 0 ) return;
+  if ( conf == 0x0 ) return;
 
   files = conf.at("file_list").get<std::string>();
   std::cout << "File list " << files << std::endl;

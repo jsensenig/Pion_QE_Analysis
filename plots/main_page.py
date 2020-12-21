@@ -2,7 +2,7 @@ import os
 import sys
 import time
 from flask import Flask, render_template
-import ROOT
+from ROOT import TFile, TCanvas
 
 
 app = Flask(__name__)
@@ -11,7 +11,7 @@ app = Flask(__name__)
 def open_file(in_file):
 
     try:
-        f = ROOT.TFile.Open(in_file, 'READ')
+        f = TFile.Open(in_file, 'READ')
         return f
     except FileNotFoundError:
         print("No file found at ", in_file)
@@ -29,7 +29,7 @@ def hist_to_image(in_file):
     for h in hists:
 
         h_name = h.GetName()
-        c = ROOT.TCanvas()
+        c = TCanvas()
         hist = ifile.Get(h_name)
         hist.Draw("COLZ")
 

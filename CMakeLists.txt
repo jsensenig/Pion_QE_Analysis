@@ -9,9 +9,16 @@ include_directories(.)
 
 add_executable(pion_qe_mc_selection
         CMakeLists.txt
-        Pion_QE_Analysis.cpp
-        Pion_QE_Analysis.h
-        Pion_QE_MC_Selection.cpp
-        Pion_QE_MC_Selection.h Utilities.h Reader.cpp Reader.h Selections.cpp Selections.h Histograms.cpp Histograms.h)
+        src/Pion_QE_Analysis.cpp
+        src/Pion_QE_Analysis.h
+        src/Pion_QE_MC_Selection.cpp
+        src/Pion_QE_MC_Selection.h
+        src/Utilities.h
+        src/Reader.cpp
+        src/Reader.h
+        src/Selections.cpp
+        src/Selections.h
+        src/Histograms.cpp
+        src/Histograms.h)
 
 target_link_libraries(pion_qe_mc_selection PUBLIC ROOT::Physics ROOT::Core ROOT::Hist ROOT::ROOTVecOps ROOT::Tree ROOT::TreePlayer)

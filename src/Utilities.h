@@ -15,7 +15,7 @@
 #include "TVector3.h"
 #include "TLorentzVector.h"
 
-#include <contrib/json.hpp>
+#include "../contrib/json.hpp"
 #include "Reader.h"
 
 using json = nlohmann::json;
@@ -62,7 +62,7 @@ namespace utils {
 //@brief Utility to load a list of files to process from a file.
 //
 //----------------------------------------------------------------
-  static std::vector<TString> LoadFileList(const std::string &file_list) {
+  static std::vector<TString> LoadFileList( const std::string &file_list ) {
 
     std::vector<TString> file_vec;
     std::string line;
@@ -181,7 +181,7 @@ namespace utils {
 
   //-------------------------------------------------------------
   // Calculate kinetic energy for a given momentum and mass
-  static double CalculateKE( TVector3 & p, double m ) {
+  static double CalculateKE( const TVector3 & p, double m ) {
 
     return sqrt( p.Mag2() + pow(m, 2) ) - m;
 
@@ -189,7 +189,7 @@ namespace utils {
 
   //-------------------------------------------------------------
   // Calculate kinetic energy for a given momentum and mass
-  static double CalculateKE( double p, double m ) {
+  static double CalculateKE( const double p, const double m ) {
 
     return sqrt( pow(p, 2) + pow(m, 2) ) - m;
 

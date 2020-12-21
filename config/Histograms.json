@@ -471,12 +471,12 @@
     {                                            
       "name" : "h_pdaughter_mom_multiplicity",
       "type": "TH2D",
-      "axes": ";Multiplicity;p [MeV]",
+      "axes": "FS pi KE;Multiplicity;KE [GeV]",
       "xbins": 10,
       "ybins": 20,
       "xu_lim": 10,
       "xl_lim": 0,
-      "yu_lim": 1.0,
+      "yu_lim": 1,
       "yl_lim": 0
     }
 

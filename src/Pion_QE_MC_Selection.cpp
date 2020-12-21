@@ -194,16 +194,18 @@ void Pion_QE_MC_Selection::ProcessPrimaryTruthDaughter(Reader &rdr) {
 // ----------------------------------------------
 void Pion_QE_MC_Selection::ProcessRecoDaughter(Reader &rdr) {
 
-  int reco_pi_cnt = utils::Count<int>( rdr.daughter_truth_Pdg, utils::pdg::kPdgPiP );
-  int reco_pi_idx = utils::FindIndex<int>( rdr.daughter_truth_Pdg, utils::pdg::kPdgPiP );
+  int reco_pi_cnt = utils::Count<int>( rdr.primary_truthdaughter_Pdg, utils::pdg::kPdgPiP );
+  int reco_pi_idx = utils::FindIndex<int>( rdr.primary_truthdaughter_Pdg, utils::pdg::kPdgPiP );
   int tpion = utils::Count<int>( rdr.primary_truthdaughter_Pdg, utils::pdg::kPdgPiP );
 
   if ( reco_pi_cnt == 1 ) { // check if there is 1 daughter pion
     std::cout << "Evt = " << *rdr.event << " Reco truth = " << reco_pi_cnt << " Primary truth = " << tpion << std::endl;
-    int p = utils::Count<int>( rdr.daughter_truth_Pdg, utils::pdg::kPdgProton );
-    int n = utils::Count<int>( rdr.daughter_truth_Pdg, utils::pdg::kPdgNeutron );
+    int p = utils::Count<int>( rdr.primary_truthdaughter_Pdg, utils::pdg::kPdgProton );
+    int n = utils::Count<int>( rdr.primary_truthdaughter_Pdg, utils::pdg::kPdgNeutron );
     _hists.th2_hists["h_neutron_proton_reco_nucleon"] -> Fill( p, n );
-    //_hists.th2_hists["h_pdaughter_mom_multiplicity"] -> Fill( (p+n), rdr.truth At( reco_pi_idx ) );
+
+    TVector3 mom(rdr.primary_truthdaughter_MomentumX.At(reco_pi_idx), rdr.primary_truthdaughter_MomentumY.At(reco_pi_idx), rdr.primary_truthdaughter_MomentumZ.At(reco_pi_idx));
+    _hists.th2_hists["h_pdaughter_mom_multiplicity"] -> Fill( (p+n), utils::CalculateKE(mom, rdr.primary_truthdaughter_Mass.At(reco_pi_idx)) );
     _pionreco += 1;
   }
 
@@ -213,11 +215,11 @@ void Pion_QE_MC_Selection::ProcessRecoDaughter(Reader &rdr) {
 void Pion_QE_MC_Selection::CalculateELoss( Reader & rdr, int daughter ) {
 
   TVector3 p(rdr.primary_truth_Momentum.At(0), rdr.primary_truth_Momentum.At(1), rdr.primary_truth_Momentum.At(2));
-  TVector3 pp(rdr.daughter_truth_MomentumX.At(daughter), rdr.daughter_truth_MomentumY.At(daughter), rdr.daughter_truth_MomentumZ.At(daughter));
+  TVector3 p_prime(rdr.daughter_truth_MomentumX.At(daughter), rdr.daughter_truth_MomentumY.At(daughter), rdr.daughter_truth_MomentumZ.At(daughter));
 
   double omega = rdr.primaryKineticEnergy.At(0) - rdr.daughterKineticEnergyP0.At(daughter);
   //double q = std::sqrt( (-q_vec.Mag2() * 1.e3) + omega ); // sqrt( Q2 + q0 )
-  double q = (p - pp).Mag() * 1.e3; // Convert all GeV -> Mev
+  double q = (p - p_prime).Mag() * 1.e3; // Convert GeV -> Mev
 
   if ( q < 350. ) _hists.th1_hists["h_omega_350"] -> Fill( omega );
   else if ( q >= 350. && q < 550 ) _hists.th1_hists["h_omega_350_550"] -> Fill( omega );

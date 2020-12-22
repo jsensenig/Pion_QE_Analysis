@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+
+<!-- Production Project -->
+
+<!DOCTYPE project [
+        <!ENTITY relsim "v09_09_01">
+        <!ENTITY relreco "v09_09_01">
+        <!ENTITY file_type "mc">
+        <!ENTITY run_type "physics">
+        <!ENTITY name "PDSPProd4_protoDUNE_sp_p1GeV_35ms_sce_datadriven">
+        <!ENTITY tag "Prod4">
+        ]>
+
+<job>
+
+    <project name="&name;">
+
+        <!-- Group -->
+        <group>dune</group>
+
+        <!-- Project size -->
+        <numevents>10</numevents>
+
+        <!-- Operating System -->
+        <os>SL6</os>
+
+        <!-- Batch resources -->
+        <resource>DEDICATED,OPPORTUNISTIC</resource>
+
+        <!-- metadata parameters -->
+
+        <parameter name ="MCName">PDSPProd4_protoDUNE_sp_p1GeV_35ms_sce_datadriven_ana</parameter>
+        <parameter name ="MCDetectorType">protoDune</parameter>
+        <parameter name ="MCGenerators">CORSIKA</parameter>
+
+        <!-- Larsoft information -->
+        <larsoft>
+            <tag>&relsim;</tag>
+            <qual>e19:prof</qual>
+            <local>/pnfs/dune/resilient/users/sensenig/tar/lar_v09_09_01/lar_v09_09_01_v0.tar</local>
+        </larsoft>
+
+        <stage name="mergeana">
+            <fcl>/dune/app/users/sensenig/worklib/lar_v09_09_01_prof/srcs/protoduneana/protoduneana/Utilities/runProtoDUNEAnalysisTree.fcl</fcl>
+            <inputlist>/dune/app/users/sensenig/worklib/test_pd_anatree/pd4/small/file.list</inputlist>
+            <outdir>/pnfs/dune/persistent/users/sensenig/&relreco;/mergeana/&name;</outdir>
+            <output>&name;_${PROCESS}_%tc_merged.root</output>
+            <workdir>/pnfs/dune/persistent/users/sensenig/&relreco;/mergeana/&name;</workdir>
+            <numjobs>1</numjobs>
+            <jobsub>--memory=4000</jobsub>
+            <targetsize>8000000000</targetsize>
+            <datatier>full-reconstructed</datatier>
+            <defname>&name;_&tag;</defname>
+            <jobsub>--expected-lifetime=2h</jobsub>
+        </stage>
+        <filetype>&file_type;</filetype>
+        <runtype>&run_type;</runtype>
+    </project>
+</job>

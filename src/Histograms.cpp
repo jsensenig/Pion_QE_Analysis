@@ -42,7 +42,6 @@ void Histograms::WriteHistos( TString & out_file ) {
   }
 
   for ( auto & h : th2_hists ) {
-    std::cout << h.first << std::endl;
     h.second -> Write();
   }
 

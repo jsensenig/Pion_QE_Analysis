@@ -19,6 +19,7 @@ public:
   virtual ~Reader();
 
   bool Next();
+  void RestartTrees();
 
   // TTree readers
   TTreeReader config_reader = { "pdAnalysisTree/Config", infile };
@@ -27,15 +28,15 @@ public:
   TTreeReader recodaughters_reader = { "pdAnalysisTree/ReconstructedDaughters", infile };
 
   // Config tree
-  TTreeReaderValue<Int_t> NAPAs = {config_reader, "NAPAs"};
-  TTreeReaderValue<Int_t> NChansPerAPA = {config_reader, "NChansPerAPA"};
-  TTreeReaderValue<Int_t> NCryostats = {config_reader, "NCryostats"};
-  TTreeReaderValue<Int_t> NTPCs = {config_reader, "NTPCs"};
-  TTreeReaderValue<Int_t> NChannels = {config_reader, "NChannels"};
-  TTreeReaderValue<Int_t> NPlanes = {config_reader, "NPlanes"};
-  TTreeReaderArray<Double_t> ActiveTPCBoundsX = {config_reader, "ActiveTPCBoundsX"};
-  TTreeReaderArray<Double_t> ActiveTPCBoundsY = {config_reader, "ActiveTPCBoundsY"};
-  TTreeReaderArray<Double_t> ActiveTPCBoundsZ = {config_reader, "ActiveTPCBoundsZ"};
+  TTreeReaderValue<int> NAPAs = {config_reader, "NAPAs"};
+  TTreeReaderValue<int> NChansPerAPA = {config_reader, "NChansPerAPA"};
+  TTreeReaderValue<int> NCryostats = {config_reader, "NCryostats"};
+  TTreeReaderValue<int> NTPCs = {config_reader, "NTPCs"};
+  TTreeReaderValue<int> NChannels = {config_reader, "NChannels"};
+  TTreeReaderValue<int> NPlanes = {config_reader, "NPlanes"};
+  TTreeReaderArray<double> ActiveTPCBoundsX = {config_reader, "ActiveTPCBoundsX"};
+  TTreeReaderArray<double> ActiveTPCBoundsY = {config_reader, "ActiveTPCBoundsY"};
+  TTreeReaderArray<double > ActiveTPCBoundsZ = {config_reader, "ActiveTPCBoundsZ"};
 
   // Beam Track tree
   TTreeReaderValue<int> run = {beamtrack_reader, "run"};

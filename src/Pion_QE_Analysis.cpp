@@ -3,6 +3,7 @@
 //
 #include "Pion_QE_Analysis.h"
 #include "Pion_QE_MC_Selection.h"
+#include "Reader.h"
 
 #include <iostream>
 #include <string>
@@ -16,6 +17,7 @@
 //----------------------------------------------------------------
 void ProcessFiles() {
 
+  // Declare desired selections here and pass TTreeReader to it below
   Pion_QE_MC_Selection Sel;
 
   std::vector<TString> file_list = utils::LoadFileList( files );
@@ -33,7 +35,11 @@ void ProcessFiles() {
 
     }
 
-    Sel.ReadData( proc_file );
+    std::unique_ptr<Reader> rdr = std::make_unique<Reader>( proc_file );
+
+    // Reset the tree back to the 0th entry before each algorithm
+    rdr->RestartTrees();
+    Sel.ReadData( rdr );
 
   }
 

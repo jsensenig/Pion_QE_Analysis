@@ -19,13 +19,13 @@ public:
 
   bool DaughterCut( int p, int n ) const;
 
-  static bool IsTruthPionQE( Reader & rdr );
+  static bool IsTruthPionQE( std::unique_ptr<Reader> & rdr );
 
-  static bool IsTruthPi2Pi( Reader & rdr );
+  static bool IsTruthPi2Pi( std::unique_ptr<Reader> & rdr );
 
-  static int PrimaryChi2PID( Reader & rdr );
+  static int PrimaryChi2PID( std::unique_ptr<Reader> & rdr );
 
-  static std::vector<int> DaughterChi2PID( Reader & rdr );
+  static std::vector<int> DaughterChi2PID( std::unique_ptr<Reader> & rdr );
 
   void Config();
 

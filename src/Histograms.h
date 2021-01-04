@@ -20,8 +20,7 @@ public:
   Histograms();
   virtual ~Histograms();
 
-  bool Config();
-  void ConfigureHistos();
+  void ConfigureHistos( std::string config_file );
   void WriteHistos( TString & out_file );
 
   // Hold all the histograms in these maps
@@ -35,9 +34,6 @@ protected:
 private:
 
   std::unique_ptr<TFile> ofile;
-
-  const std::string _config_file = "../config/Histograms.json";
-  json _conf;
 
 };
 

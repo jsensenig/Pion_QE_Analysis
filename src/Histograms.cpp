@@ -6,14 +6,16 @@
 
 
 Histograms::Histograms()
-{ if ( !Config() ) return; }
+{ ; }
 
 Histograms::~Histograms()
 { ; }
 
-void Histograms::ConfigureHistos() {
+void Histograms::ConfigureHistos( std::string config_file ) {
 
-  json hists_1d = _conf.at("1d_hists");
+  json conf = utils::LoadConfig( config_file );
+
+  json hists_1d = conf.at("1d_hists");
 
   for ( auto & h : hists_1d ) {
 
@@ -22,7 +24,7 @@ void Histograms::ConfigureHistos() {
 
   }
 
-  json hists_2d = _conf.at("2d_hists");
+  json hists_2d = conf.at("2d_hists");
 
   for ( auto & h : hists_2d ) {
 
@@ -58,12 +60,4 @@ bool Histograms::OpenFile( TString & out_file ) {
     return false;
   }
   return true;
-}
-
-bool Histograms::Config() {
-
-  _conf = utils::LoadConfig( _config_file );
-  if ( _conf == 0x0 ) return false;
-  return true;
-
 }

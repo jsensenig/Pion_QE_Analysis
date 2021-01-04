@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.15)
 project(Pion_QE)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 14)
 
 find_package(ROOT 6.22 CONFIG REQUIRED)
 
@@ -21,4 +21,10 @@ add_executable(pion_qe_mc_selection
         src/Histograms.cpp
         src/Histograms.h)
 
-target_link_libraries(pion_qe_mc_selection PUBLIC ROOT::Physics ROOT::Core ROOT::Hist ROOT::ROOTVecOps ROOT::Tree ROOT::TreePlayer)
+target_link_libraries(pion_qe_mc_selection
+         PUBLIC ROOT::Physics
+                ROOT::Core
+                ROOT::Hist
+                ROOT::ROOTVecOps
+                ROOT::Tree
+                ROOT::TreePlayer)

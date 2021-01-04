@@ -145,17 +145,17 @@ namespace utils {
 
   }
 
-  static std::map<std::string, double> MakePrimaryPIDMap( Reader & rdr, int plane=0 ) {
+  static std::map<std::string, double> MakePrimaryPIDMap( std::unique_ptr<Reader> & rdr, int plane=0 ) {
 
     std::map<std::string, double> pid_map;
 
-    pid_map.emplace( "proton_chi2", rdr.primaryPID_Chi2Proton.At(plane) );
-    pid_map.emplace( "pion_chi2", rdr.primaryPID_Chi2Pion.At(plane) );
-    pid_map.emplace( "muon_chi2", rdr.primaryPID_Chi2Muon.At(plane) );
-    pid_map.emplace( "kaon_chi2", rdr.primaryPID_Chi2Kaon.At(plane) );
+    pid_map.emplace( "proton_chi2", rdr->primaryPID_Chi2Proton.At(plane) );
+    pid_map.emplace( "pion_chi2", rdr->primaryPID_Chi2Pion.At(plane) );
+    pid_map.emplace( "muon_chi2", rdr->primaryPID_Chi2Muon.At(plane) );
+    pid_map.emplace( "kaon_chi2", rdr->primaryPID_Chi2Kaon.At(plane) );
 
-    pid_map.emplace( "proton_chi2", rdr.primaryPID_PIDA.At(plane) );
-    pid_map.emplace( "truth_pdg", *rdr.primary_truth_Pdg );
+    pid_map.emplace( "proton_chi2", rdr->primaryPID_PIDA.At(plane) );
+    pid_map.emplace( "truth_pdg", *rdr->primary_truth_Pdg );
 
     return pid_map;
 
@@ -181,7 +181,7 @@ namespace utils {
 
   //-------------------------------------------------------------
   // Calculate kinetic energy for a given momentum and mass
-  static double CalculateKE( const TVector3 & p, double m ) {
+  static double CalculateKE( const TVector3 & p, const double m ) {
 
     return sqrt( p.Mag2() + pow(m, 2) ) - m;
 

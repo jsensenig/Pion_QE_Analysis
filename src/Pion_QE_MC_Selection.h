@@ -15,11 +15,14 @@ class Pion_QE_MC_Selection {
 
 public:
 
-  void ReadData(TFile * file);
-  void ProcessPrimary( Reader & rdr );
-  void ProcessPrimaryTruthDaughter( Reader & rdr );
-  void ProcessRecoDaughter( Reader & rdr );
-  void CalculateELoss( Reader & rdr, int daughter );
+  explicit Pion_QE_MC_Selection();
+  virtual ~Pion_QE_MC_Selection();
+
+  void ReadData( std::unique_ptr<Reader> & rdr );
+  void ProcessPrimary( std::unique_ptr<Reader> & rdr );
+  void ProcessPrimaryTruthDaughter( std::unique_ptr<Reader> & rdr );
+  void ProcessRecoDaughter( std::unique_ptr<Reader> & rdr );
+  void CalculateELoss( std::unique_ptr<Reader> & rdr, int daughter );
   void CalculateELoss( const TLorentzVector& k, const TLorentzVector& kp );
   void Config();
 

@@ -3,6 +3,7 @@
 //
 
 #include "Pion_QE_MC_Selection.h"
+#include "Types.hpp"
 #include <iostream>
 
 Pion_QE_MC_Selection::Pion_QE_MC_Selection()
@@ -50,9 +51,9 @@ void Pion_QE_MC_Selection::ReadData( std::unique_ptr<Reader> & rdr ) {
     if ( Selections::IsTruthPi2Pi( rdr ) ) {
       int pi = utils::FindIndex<int>( rdr->primary_truthdaughter_Pdg, utils::pdg::kPdgPiP );
       //CalculateELoss( rdr, pi );
-      TLorentzVector primary_pi_mom( rdr->primary_truth_Momentum.At( 0 ), rdr->primary_truth_Momentum.At( 1 ),
+      Position4_t primary_pi_mom( rdr->primary_truth_Momentum.At( 0 ), rdr->primary_truth_Momentum.At( 1 ),
                                      rdr->primary_truth_Momentum.At( 2 ), rdr->primary_truth_Momentum.At( 3 ));
-      TLorentzVector truthdaughter_pi_mom( rdr->primary_truthdaughter_MomentumX.At( pi ), rdr->primary_truthdaughter_MomentumY.At( pi ),
+      Position4_t truthdaughter_pi_mom( rdr->primary_truthdaughter_MomentumX.At( pi ), rdr->primary_truthdaughter_MomentumY.At( pi ),
                                            rdr->primary_truthdaughter_MomentumZ.At( pi ), rdr->primary_truthdaughter_MomentumE.At( pi ));
       CalculateELoss( primary_pi_mom, truthdaughter_pi_mom );
     }
@@ -125,7 +126,8 @@ void Pion_QE_MC_Selection::ProcessPrimary( std::unique_ptr<Reader> & rdr ) {
 void Pion_QE_MC_Selection::ProcessPrimaryTruthDaughter( std::unique_ptr<Reader> & rdr ) {
 
   // Get the primary particle end direction
-  TVector3 prim_enddir( rdr->primaryEndDirection.At(0),rdr->primaryEndDirection.At(1), rdr->primaryEndDirection.At(2) );
+  Vector_t prim_enddir( rdr->primaryEndDirection.At(0),rdr->primaryEndDirection.At(1), rdr->primaryEndDirection.At(2) );
+  Vector_t prim_enddir_test( rdr->primaryEndDirection.At(0),rdr->primaryEndDirection.At(1), rdr->primaryEndDirection.At(2) );
 
   // Get the daughter chi2 pid
   std::vector<int> daughter_pdg = Selections::DaughterChi2PID( rdr );
@@ -135,7 +137,7 @@ void Pion_QE_MC_Selection::ProcessPrimaryTruthDaughter( std::unique_ptr<Reader> 
   int np = 0, nn = 0, pi = 0;
   for ( int i = 0; i < ( *rdr->primary_truth_NDAUGTHERS ); i++ ) {
 
-    TVector3 daughter_startdir( rdr->daughterStartDirectionX.At(i), rdr->daughterStartDirectionY.At(i), rdr->daughterStartDirectionZ.At(i) );
+    Vector_t daughter_startdir( rdr->daughterStartDirectionX.At(i), rdr->daughterStartDirectionY.At(i), rdr->daughterStartDirectionZ.At(i) );
 
     _hists.th1_hists["h_daughter_pida_all_p0"] -> Fill( rdr->daughterPID_PIDAP0.At(i) ); // plane 0 = collection
     _hists.th1_hists["h_daughter_pida_all_p1"] -> Fill( rdr->daughterPID_PIDAP1.At(i) ); // plane 1 = collection
@@ -202,7 +204,7 @@ void Pion_QE_MC_Selection::ProcessRecoDaughter( std::unique_ptr<Reader> & rdr ) 
     int n = utils::Count<int>( rdr->primary_truthdaughter_Pdg, utils::pdg::kPdgNeutron );
     _hists.th2_hists["h_neutron_proton_reco_nucleon"] -> Fill( p, n );
 
-    TVector3 mom(rdr->primary_truthdaughter_MomentumX.At(reco_pi_idx), rdr->primary_truthdaughter_MomentumY.At(reco_pi_idx), rdr->primary_truthdaughter_MomentumZ.At(reco_pi_idx));
+    Vector_t mom(rdr->primary_truthdaughter_MomentumX.At(reco_pi_idx), rdr->primary_truthdaughter_MomentumY.At(reco_pi_idx), rdr->primary_truthdaughter_MomentumZ.At(reco_pi_idx));
     _hists.th2_hists["h_pdaughter_mom_multiplicity"] -> Fill( (p+n), utils::CalculateKE(mom, rdr->primary_truthdaughter_Mass.At(reco_pi_idx)) );
     _pionreco += 1;
   }
@@ -212,12 +214,12 @@ void Pion_QE_MC_Selection::ProcessRecoDaughter( std::unique_ptr<Reader> & rdr ) 
 // -----------------------------------------------
 void Pion_QE_MC_Selection::CalculateELoss( std::unique_ptr<Reader> & rdr, int daughter ) {
 
-  TVector3 p(rdr->primary_truth_Momentum.At(0), rdr->primary_truth_Momentum.At(1), rdr->primary_truth_Momentum.At(2));
-  TVector3 p_prime(rdr->daughter_truth_MomentumX.At(daughter), rdr->daughter_truth_MomentumY.At(daughter), rdr->daughter_truth_MomentumZ.At(daughter));
+  Vector_t p(rdr->primary_truth_Momentum.At(0), rdr->primary_truth_Momentum.At(1), rdr->primary_truth_Momentum.At(2));
+  Vector_t p_prime(rdr->daughter_truth_MomentumX.At(daughter), rdr->daughter_truth_MomentumY.At(daughter), rdr->daughter_truth_MomentumZ.At(daughter));
 
   double omega = rdr->primaryKineticEnergy.At(0) - rdr->daughterKineticEnergyP0.At(daughter);
   //double q = std::sqrt( (-q_vec.Mag2() * 1.e3) + omega ); // sqrt( Q2 + q0 )
-  double q = (p - p_prime).Mag() * 1.e3; // Convert GeV -> Mev
+  double q = (p - p_prime).R() * 1.e3; // Convert GeV -> Mev
 
   if ( q < 350. ) _hists.th1_hists["h_omega_350"] -> Fill( omega );
   else if ( q >= 350. && q < 550 ) _hists.th1_hists["h_omega_350_550"] -> Fill( omega );
@@ -226,12 +228,12 @@ void Pion_QE_MC_Selection::CalculateELoss( std::unique_ptr<Reader> & rdr, int da
 }
 
 // -----------------------------------------------
-void Pion_QE_MC_Selection::CalculateELoss( const TLorentzVector& k, const TLorentzVector& kp ) {
+void Pion_QE_MC_Selection::CalculateELoss( const Position4_t & k, const Position4_t& kp ) {
 
-  TLorentzVector q_vec = k - kp;
+  Position4_t q_vec = k - kp;
   // Convert all GeV -> Mev
   double omega = q_vec.E() * 1.e3;
-  double q = q_vec.Vect().Mag() * 1.e3;
+  double q = q_vec.Vect().R() * 1.e3;
 
   if ( q < 350. ) _hists.th1_hists["h_omega_350"] -> Fill( omega );
   else if ( q >= 350. && q < 550 ) _hists.th1_hists["h_omega_350_550"] -> Fill( omega );

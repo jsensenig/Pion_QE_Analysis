@@ -23,7 +23,7 @@ public:
   void ProcessPrimaryTruthDaughter( std::unique_ptr<Reader> & rdr );
   void ProcessRecoDaughter( std::unique_ptr<Reader> & rdr );
   void CalculateELoss( std::unique_ptr<Reader> & rdr, int daughter );
-  void CalculateELoss( const TLorentzVector& k, const TLorentzVector& kp );
+  void CalculateELoss( const Position4_t & k, const Position4_t & kp );
   void Config();
 
 private:

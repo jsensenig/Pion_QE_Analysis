@@ -1,9 +1,9 @@
 //
 // Created by Jon Sensenig on 12/3/20.
 //
-#include <iostream>
-#include <fstream>
-#include <vector>
+#include "../contrib/json.hpp"
+#include "Reader.hpp"
+#include "Types.hpp"
 
 #include "TString.h"
 #include "TH1I.h"
@@ -12,11 +12,11 @@
 #include "TH2I.h"
 #include "TH2D.h"
 #include "TH2F.h"
-#include "TVector3.h"
-#include "TLorentzVector.h"
+#include "Math/GenVector/AxisAngle.h"
 
-#include "../contrib/json.hpp"
-#include "Reader.hpp"
+#include <iostream>
+#include <fstream>
+#include <vector>
 
 using json = nlohmann::json;
 
@@ -163,25 +163,29 @@ namespace utils {
 
   //------------------------------------------------------------
   // Rotate vector v into dir reference frame then return the theta angle in that frame
-  static double ThetaAngle( const TVector3& dir, TVector3 v ) {
+  static double ThetaAngle( const Vector_t& dir, Vector_t v ) {
 
-    v.RotateUz( dir.Unit() ) ;
+    //v.RotateUz( dir.Unit() ) ;   FIXME
+    //ROOT::Math::AxisAngle r(dir, 0);
+    //return (r * v).Theta();
     return v.Theta();
 
   }
 
   //-------------------------------------------------------------
   // Rotate vector v into dir reference frame then return the phi angle in that frame
-  static double PhiAngle( const TVector3& dir, TVector3 v ) {
+  static double PhiAngle( const Vector_t& dir, Vector_t v ) {
 
-    v.RotateUz( dir.Unit() ) ;
+    //v.RotateUz( dir.Unit() ) ;  FIXME
+    //ROOT::Math::AxisAngle r(dir, 0);
+    //return (r * v).Phi();
     return v.Phi();
 
   }
 
   //-------------------------------------------------------------
   // Calculate kinetic energy for a given momentum and mass
-  static double CalculateKE( const TVector3 & p, const double m ) {
+  static double CalculateKE( const Vector_t & p, const double m ) {
 
     return sqrt( p.Mag2() + pow(m, 2) ) - m;
 

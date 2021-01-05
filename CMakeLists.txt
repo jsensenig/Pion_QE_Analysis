@@ -19,7 +19,8 @@ add_executable(pion_qe_mc_selection
         src/Selections.cpp
         src/Selections.hpp
         src/Histograms.cpp
-        src/Histograms.hpp)
+        src/Histograms.hpp
+        src/Types.hpp)
 
 target_link_libraries(pion_qe_mc_selection
          PUBLIC ROOT::Physics

@@ -2,8 +2,8 @@
 // Created by Jon Sensenig on 12/4/20.
 //
 
-#include "Selections.h"
-#include "Utilities.h"
+#include "Selections.hpp"
+#include "Utilities.hpp"
 #include <algorithm>
 
 

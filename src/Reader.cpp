@@ -2,7 +2,7 @@
 // Created by Jon Sensenig on 12/4/20.
 //
 
-#include "Reader.h"
+#include "Reader.hpp"
 
 
 Reader::Reader( TFile * file ) :

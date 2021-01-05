@@ -16,7 +16,7 @@
 #include "TLorentzVector.h"
 
 #include "../contrib/json.hpp"
-#include "Reader.h"
+#include "Reader.hpp"
 
 using json = nlohmann::json;
 

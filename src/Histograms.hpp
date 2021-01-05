@@ -2,15 +2,15 @@
 // Created by Jon Sensenig on 12/5/20.
 //
 
-#ifndef PION_QE_HISTOGRAMS_H
-#define PION_QE_HISTOGRAMS_H
+#ifndef PION_QE_HISTOGRAMS_HPP
+#define PION_QE_HISTOGRAMS_HPP
 
 #include <map>
 #include <iostream>
 #include "TH1D.h"
 #include "TH2D.h"
 #include "TFile.h"
-#include "Utilities.h"
+#include "Utilities.hpp"
 
 
 class Histograms {
@@ -38,4 +38,4 @@ private:
 };
 
 
-#endif //PION_QE_HISTOGRAMS_H
+#endif //PION_QE_HISTOGRAMS_HPP

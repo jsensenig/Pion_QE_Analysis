@@ -2,8 +2,8 @@
 // Created by Jon Sensenig on 12/4/20.
 //
 
-#ifndef PION_QE_READER_H
-#define PION_QE_READER_H
+#ifndef PION_QE_READER_HPP
+#define PION_QE_READER_HPP
 
 #include "TFile.h"
 #include "TTreeReader.h"
@@ -384,4 +384,4 @@ private:
 };
 
 
-#endif //PION_QE_READER_H
+#endif //PION_QE_READER_HPP

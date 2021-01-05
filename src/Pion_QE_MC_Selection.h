@@ -6,9 +6,9 @@
 #define PION_QE_PION_QE_MC_SELECTION_H
 
 #include "TFile.h"
-#include "Histograms.h"
-#include "Selections.h"
-#include "Reader.h"
+#include "Histograms.hpp"
+#include "Selections.hpp"
+#include "Reader.hpp"
 
 
 class Pion_QE_MC_Selection {

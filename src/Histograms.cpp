@@ -2,7 +2,7 @@
 // Created by Jon Sensenig on 12/5/20.
 //
 
-#include "Histograms.h"
+#include "Histograms.hpp"
 
 
 Histograms::Histograms()

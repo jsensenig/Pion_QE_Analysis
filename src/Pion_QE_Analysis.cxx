@@ -1,9 +1,9 @@
 //
 // Created by Jon Sensenig on 12/3/20.
 //
-#include "Pion_QE_Analysis.h"
+#include "Pion_QE_Analysis.hpp"
 #include "Pion_QE_MC_Selection.h"
-#include "Reader.h"
+#include "Reader.hpp"
 
 #include <iostream>
 #include <string>
@@ -35,11 +35,11 @@ void ProcessFiles() {
 
     }
 
-    std::unique_ptr<Reader> rdr = std::make_unique<Reader>( proc_file );
+    auto reader = std::make_unique<Reader>( proc_file );
 
     // Reset the tree back to the 0th entry before each algorithm
-    rdr->RestartTrees();
-    Sel.ReadData( rdr );
+    reader->RestartTrees();
+    Sel.ReadData( reader );
 
   }
 

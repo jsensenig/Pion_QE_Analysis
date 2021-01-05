@@ -2,10 +2,10 @@
 // Created by Jon Sensenig on 12/4/20.
 //
 
-#ifndef PION_QE_SELECTIONS_H
-#define PION_QE_SELECTIONS_H
+#ifndef PION_QE_SELECTIONS_HPP
+#define PION_QE_SELECTIONS_HPP
 
-#include "Reader.h"
+#include "Reader.hpp"
 
 
 class Selections {
@@ -44,4 +44,4 @@ private:
 };
 
 
-#endif //PION_QE_SELECTIONS_H
+#endif //PION_QE_SELECTIONS_HPP

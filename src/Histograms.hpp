@@ -20,7 +20,7 @@ public:
   Histograms();
   virtual ~Histograms();
 
-  void ConfigureHistos( std::string config_file );
+  bool ConfigureHistos( std::string config_file );
   void WriteHistos( TString & out_file );
 
   // Hold all the histograms in these maps

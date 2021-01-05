@@ -11,9 +11,11 @@ Histograms::Histograms()
 Histograms::~Histograms()
 { ; }
 
-void Histograms::ConfigureHistos( std::string config_file ) {
+bool Histograms::ConfigureHistos( std::string config_file ) {
 
   json conf = utils::LoadConfig( config_file );
+
+  if ( conf == 0x0 ) return false; // Failed to load config
 
   json hists_1d = conf.at("1d_hists");
 
@@ -32,6 +34,8 @@ void Histograms::ConfigureHistos( std::string config_file ) {
     th2_hists[name] = utils::Create2dHist( h );
 
   }
+
+  return true;
 
 }
 

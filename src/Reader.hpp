@@ -5,6 +5,8 @@
 #ifndef PION_QE_READER_HPP
 #define PION_QE_READER_HPP
 
+#include "datatypes/vector_vector.h"
+
 #include "TFile.h"
 #include "TTreeReader.h"
 #include "TTreeReaderValue.h"

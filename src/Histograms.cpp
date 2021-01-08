@@ -15,7 +15,7 @@ bool Histograms::ConfigureHistos( std::string config_file ) {
 
   json conf = utils::LoadConfig( config_file );
 
-  if ( conf == 0x0 ) return false; // Failed to load config
+  if ( conf == nullptr ) return false; // Failed to load config
 
   json hists_1d = conf.at("1d_hists");
 

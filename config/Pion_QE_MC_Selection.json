@@ -77,8 +77,8 @@
       "name" : "h_prim_ke_pion",
       "type": "TH1D",
       "axes": "Primary Kinetic Energy Pion;KE [MeV];Count",
-      "bins": 120,
-      "u_lim": 1200,
+      "bins": 20,
+      "u_lim": 500,
       "l_lim": 0
     },
     {
@@ -101,8 +101,8 @@
       "name" : "h_prim_ke_pionqe",
       "type": "TH1D",
       "axes": "Primary Kinetic Energy QE Pion;KE [MeV];Count",
-      "bins": 120,
-      "u_lim": 1200,
+      "bins": 20,
+      "u_lim": 500,
       "l_lim": 0
     },
     {

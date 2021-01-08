@@ -50,6 +50,7 @@ void Pion_QE_MC_Selection::ReadData( std::unique_ptr<Reader> & rdr ) {
     // Calculate the pion energy loss for all pion -> pion + X scattering where X >= 0 particles
     if ( Selections::IsTruthPi2Pi( rdr ) ) {
       int pi = utils::FindIndex<int>( rdr->primary_truthdaughter_Pdg, utils::pdg::kPdgPiP );
+      std::cout << "Pion idx " << pi << std::endl;
       //CalculateELoss( rdr, pi );
       Position4_t primary_pi_mom( rdr->primary_truth_Momentum.At( 0 ), rdr->primary_truth_Momentum.At( 1 ),
                                      rdr->primary_truth_Momentum.At( 2 ), rdr->primary_truth_Momentum.At( 3 ));
@@ -230,6 +231,8 @@ void Pion_QE_MC_Selection::CalculateELoss( std::unique_ptr<Reader> & rdr, int da
 // -----------------------------------------------
 void Pion_QE_MC_Selection::CalculateELoss( const Position4_t & k, const Position4_t& kp ) {
 
+  std::cout << "k: Px " << k.Px() << " Py " << k.Py() << " Pz " << k.Pz() << " E " << k.E() << std::endl;
+  std::cout << "kp: Px " << kp.Px() << " Py " << kp.Py() << " Pz " << kp.Pz() << " E " << kp.E() << std::endl;
   Position4_t q_vec = k - kp;
   // Convert all GeV -> Mev
   double omega = q_vec.E() * 1.e3;
@@ -244,7 +247,7 @@ void Pion_QE_MC_Selection::CalculateELoss( const Position4_t & k, const Position
 void Pion_QE_MC_Selection::Config() {
 
   json conf = utils::LoadConfig( _config_file );
-  if ( conf == 0x0 ) return;
+  if ( conf == nullptr ) return;
 
   _outfile = conf.at("out_file").get<std::string>();
   std::cout << "Output file: " << _outfile << std::endl;

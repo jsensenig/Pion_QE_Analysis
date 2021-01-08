@@ -38,7 +38,7 @@ void ProcessFiles() {
     auto reader = std::make_unique<Reader>( proc_file );
 
     // Reset the tree back to the 0th entry before each algorithm
-    reader->RestartTrees();
+    reader -> RestartTrees();
     Sel.ReadData( reader );
 
   }
@@ -48,7 +48,7 @@ void ProcessFiles() {
 void Config() {
 
   json conf = utils::LoadConfig( config_file );
-  if ( conf == 0x0 ) return;
+  if ( conf == nullptr ) return;
 
   files = conf.at("file_list").get<std::string>();
   std::cout << "File list " << files << std::endl;

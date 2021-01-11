@@ -37,6 +37,9 @@ private:
   size_t _piontruth = 0;
   size_t _pionreco = 0;
 
+  // Set the collection plane number
+  int c_plane_ = 2;
+
   const std::string _config_file = "../config/Pion_QE_MC_Selection.json";
   TString _outfile;
 

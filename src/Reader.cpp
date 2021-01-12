@@ -12,17 +12,6 @@ Reader::Reader( TFile * file ) :
 Reader::~Reader()
 { }
 
-bool Reader::Next() {
+bool Reader::Next() { return beamana_reader.Next(); }
 
-  return beamtrack_reader.Next() && recobeamtevt_reader.Next() && recodaughters_reader.Next();
-
-}
-
-void Reader::RestartTrees() {
-
-  config_reader.Restart();
-  beamtrack_reader.Restart();
-  recobeamtevt_reader.Restart();
-  recodaughters_reader.Restart();
-
-}
+void Reader::RestartTrees() { beamana_reader.Restart(); }

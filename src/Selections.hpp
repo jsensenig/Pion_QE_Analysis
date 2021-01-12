@@ -15,11 +15,10 @@ public:
   Selections();
   virtual ~Selections();
 
-  bool PIDACut( double pida ) const;
+  bool DaughterCut( int p, int n ) const ;
+  bool PIDACut( double pida ) const ;
+  bool IsTruthPionQE( std::unique_ptr<Reader> & rdr ) const;
 
-  bool DaughterCut( int p, int n ) const;
-
-  static bool IsTruthPionQE( std::unique_ptr<Reader> & rdr );
 
   static bool IsTruthPi2Pi( std::unique_ptr<Reader> & rdr );
 

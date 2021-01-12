@@ -19,9 +19,9 @@ public:
   virtual ~Pion_QE_MC_Selection();
 
   void ReadData( std::unique_ptr<Reader> & rdr );
-  void ProcessPrimary( std::unique_ptr<Reader> & rdr );
-  void ProcessPrimaryTruthDaughter( std::unique_ptr<Reader> & rdr );
-  void ProcessRecoDaughter( std::unique_ptr<Reader> & rdr );
+//  void ProcessPrimary( std::unique_ptr<Reader> & rdr );
+//  void ProcessPrimaryTruthDaughter( std::unique_ptr<Reader> & rdr );
+//  void ProcessRecoDaughter( std::unique_ptr<Reader> & rdr );
   void CalculateELoss( std::unique_ptr<Reader> & rdr, int daughter );
   void CalculateELoss( const Position4_t & k, const Position4_t & kp );
   void Config();
@@ -39,6 +39,8 @@ private:
 
   // Set the collection plane number
   int c_plane_ = 2;
+
+  Selections sel;
 
   const std::string _config_file = "../config/Pion_QE_MC_Selection.json";
   TString _outfile;

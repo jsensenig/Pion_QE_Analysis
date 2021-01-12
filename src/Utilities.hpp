@@ -1,6 +1,10 @@
 //
 // Created by Jon Sensenig on 12/3/20.
 //
+
+#ifndef UTILITIES_HPP
+#define UTILITIES_HPP
+
 #include "../contrib/json.hpp"
 #include "Reader.hpp"
 #include "Types.hpp"
@@ -145,17 +149,17 @@ namespace utils {
 
   }
 
-  static std::map<std::string, double> MakePrimaryPIDMap( std::unique_ptr<Reader> & rdr, int plane=0 ) {
+  static std::map<std::string, double> MakePrimaryPIDMap( std::unique_ptr<Reader> & rdr, int plane=2 ) {
 
     std::map<std::string, double> pid_map;
 
-    pid_map.emplace( "proton_chi2", rdr->primaryPID_Chi2Proton.At(plane) );
-    pid_map.emplace( "pion_chi2", rdr->primaryPID_Chi2Pion.At(plane) );
-    pid_map.emplace( "muon_chi2", rdr->primaryPID_Chi2Muon.At(plane) );
-    pid_map.emplace( "kaon_chi2", rdr->primaryPID_Chi2Kaon.At(plane) );
+    pid_map.emplace( "proton_chi2", *rdr->reco_beam_allTrack_Chi2_proton );
+    //pid_map.emplace( "pion_chi2", rdr->primaryPID_Chi2Pion.At(plane) );
+    //pid_map.emplace( "muon_chi2", rdr->primaryPID_Chi2Muon.At(plane) );
+    //pid_map.emplace( "kaon_chi2", rdr->primaryPID_Chi2Kaon.At(plane) );
 
-    pid_map.emplace( "proton_chi2", rdr->primaryPID_PIDA.At(plane) );
-    pid_map.emplace( "truth_pdg", *rdr->primary_truth_Pdg );
+    //pid_map.emplace( "proton_chi2", rdr->primaryPID_PIDA.At(plane) );
+    pid_map.emplace( "truth_pdg", *rdr->true_beam_PDG );
 
     return pid_map;
 
@@ -234,3 +238,5 @@ namespace utils {
   }
 
 }
+
+#endif //UTILITIES_HPP

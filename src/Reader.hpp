@@ -377,15 +377,15 @@ public:
   TTreeReaderArray<std::string> g4rw_primary_var = {beamana_reader, "g4rw_primary_var"};
   TTreeReaderArray<double> g4rw_alt_primary_plus_sigma_weight = {beamana_reader, "g4rw_alt_primary_plus_sigma_weight"};
   TTreeReaderArray<double> g4rw_alt_primary_minus_sigma_weight = {beamana_reader, "g4rw_alt_primary_minus_sigma_weight"};
-  TTreeReaderArray<double> reco_beam_spacePts_X = {beamana_reader, "reco_beam_spacePts_X"};
-  TTreeReaderArray<double> reco_beam_spacePts_Y = {beamana_reader, "reco_beam_spacePts_Y"};
-  TTreeReaderArray<double> reco_beam_spacePts_Z = {beamana_reader, "reco_beam_spacePts_Z"};
-  TTreeReaderValue<std::vector<std::vector<double> >> reco_daughter_spacePts_X = {beamana_reader, "reco_daughter_spacePts_X"};
-  TTreeReaderArray<std::vector<double>> reco_daughter_spacePts_Y = {beamana_reader, "reco_daughter_spacePts_Y"};
-  TTreeReaderArray<std::vector<double>> reco_daughter_spacePts_Z = {beamana_reader, "reco_daughter_spacePts_Z"};
-  TTreeReaderArray<std::vector<double>> reco_daughter_shower_spacePts_X = {beamana_reader, "reco_daughter_shower_spacePts_X"};
-  TTreeReaderArray<std::vector<double>> reco_daughter_shower_spacePts_Y = {beamana_reader, "reco_daughter_shower_spacePts_Y"};
-  TTreeReaderArray<std::vector<double>> reco_daughter_shower_spacePts_Z = {beamana_reader, "reco_daughter_shower_spacePts_Z"};
+//  TTreeReaderArray<double> reco_beam_spacePts_X = {beamana_reader, "reco_beam_spacePts_X"};
+//  TTreeReaderArray<double> reco_beam_spacePts_Y = {beamana_reader, "reco_beam_spacePts_Y"};
+//  TTreeReaderArray<double> reco_beam_spacePts_Z = {beamana_reader, "reco_beam_spacePts_Z"};
+//  TTreeReaderValue<std::vector<std::vector<double> >> reco_daughter_spacePts_X = {beamana_reader, "reco_daughter_spacePts_X"};
+//  TTreeReaderValue<std::vector<std::vector<double> >> reco_daughter_spacePts_Y = {beamana_reader, "reco_daughter_spacePts_Y"};
+//  TTreeReaderValue<std::vector<std::vector<double> >> reco_daughter_spacePts_Z = {beamana_reader, "reco_daughter_spacePts_Z"};
+//  TTreeReaderValue<std::vector<std::vector<double> >> reco_daughter_shower_spacePts_X = {beamana_reader, "reco_daughter_shower_spacePts_X"};
+//  TTreeReaderValue<std::vector<std::vector<double> >> reco_daughter_shower_spacePts_Y = {beamana_reader, "reco_daughter_shower_spacePts_Y"};
+//  TTreeReaderValue<std::vector<std::vector<double> >> reco_daughter_shower_spacePts_Z = {beamana_reader, "reco_daughter_shower_spacePts_Z"};
 
 
 private:

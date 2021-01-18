@@ -19,9 +19,8 @@ public:
   virtual ~Pion_QE_MC_Selection();
 
   void ReadData( std::unique_ptr<Reader> & rdr );
-//  void ProcessPrimary( std::unique_ptr<Reader> & rdr );
-//  void ProcessPrimaryTruthDaughter( std::unique_ptr<Reader> & rdr );
-//  void ProcessRecoDaughter( std::unique_ptr<Reader> & rdr );
+  void PrintEventDebug( std::unique_ptr<Reader> & rdr ) const ;
+  void ProcessTrueQe( std::unique_ptr<Reader> & rdr );
   void CalculateELoss( std::unique_ptr<Reader> & rdr, int daughter );
   void CalculateELoss( const Position4_t & k, const Position4_t & kp );
   void Config();
@@ -34,6 +33,7 @@ private:
   Selections _sel;
 
   size_t _pionqe = 0;
+  size_t _true_pionqe = 0;
   size_t _piontruth = 0;
   size_t _pionreco = 0;
 

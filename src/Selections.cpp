@@ -3,7 +3,6 @@
 //
 
 #include "Selections.hpp"
-#include "Utilities.hpp"
 
 #include <algorithm>
 
@@ -31,14 +30,38 @@ bool Selections::DaughterCut( int p, int n ) const {
 
 }
 
+// Make a cut on the CNN EM classification score
+//----------------------------------------------------------------
+bool Selections::EMScoreCut( double score ) const {
+
+  return score <= upper_em_score && score >= lower_em_score;
+
+}
+
+// Make a cut on the CNN Track classification score
+//----------------------------------------------------------------
+bool Selections::TrackScoreCut( double score ) const {
+
+  return score <= upper_track_score && score >= lower_track_score;
+
+}
+
+// Make a cut on the CNN Track classification score
+//----------------------------------------------------------------
+bool Selections::PiTofCut( double tof ) const {
+
+  return tof <= upper_pi_tof_cut && tof >= lower_pi_tof_cut;
+
+}
+
 // Select truth level pion QE events i.e. pi+ --> pi+ + N (N > 0 nucleons)
 //----------------------------------------------------------------
-bool Selections::IsTruthPionQE( std::unique_ptr<Reader> & rdr ) const {
-
-  return *rdr->true_beam_PDG == utils::pdg::kPdgPiP &&
-         ( *rdr->true_daughter_nNeutron > 0 || *rdr->true_daughter_nProton > 0 );
-
-};
+//bool Selections::IsTruthPionQE( std::unique_ptr<Reader> & rdr ) const {
+//
+//  return *rdr->true_beam_PDG == utils::pdg::kPdgPiP &&
+//         ( *rdr->true_daughter_nNeutron > 0 || *rdr->true_daughter_nProton > 0 );
+//
+//}
 
 // True if there is an 1 pion in initial and final state, otherwise false
 // --------------------------------------------------
@@ -99,10 +122,43 @@ void Selections::Config() {
   json conf = utils::LoadConfig( _config_file );
   if ( conf == 0x0 ) return;
 
-  upper_PIDACut = conf.at("PIDACut").at("upper").get<int>();
-  lower_PIDACut = conf.at("PIDACut").at("lower").get<int>();
+  if ( !conf.contains("PIDACut") ) {
+    upper_PIDACut = 0.0;
+    lower_PIDACut = 0.0;
+  } else {
+    upper_PIDACut = conf.at( "PIDACut" ).at( "upper" ).get<double>();
+    lower_PIDACut = conf.at( "PIDACut" ).at( "lower" ).get<double>();
+  }
 
-  neutron_daughter_count = conf.at("DaughterCut").at("neutron_count").get<int>();
-  proton_daughter_count = conf.at("DaughterCut").at("proton_count").get<int>();
+  if ( !conf.contains("DaughterCut") ) {
+    proton_daughter_count = 999;
+    neutron_daughter_count = 999;
+  } else {
+    proton_daughter_count = conf.at( "DaughterCut" ).at("neutron_count" ).get<int>();
+    neutron_daughter_count = conf.at( "DaughterCut" ).at("proton_count" ).get<int>();
+  }
 
+  if ( !conf.contains("EMScoreCut") ) {
+    upper_em_score = 0.0;
+    lower_em_score = 0.0;
+  } else {
+    upper_em_score = conf.at( "EMScoreCut" ).at( "upper" ).get<double>();
+    lower_em_score = conf.at( "EMScoreCut" ).at( "lower" ).get<double>();
+  }
+
+  if ( !conf.contains("TrackScoreCut") ) {
+    upper_track_score = 0.0;
+    lower_track_score = 0.0;
+  } else {
+    upper_track_score = conf.at( "TrackScoreCut" ).at( "upper" ).get<double>();
+    lower_track_score = conf.at( "TrackScoreCut" ).at( "lower" ).get<double>();
+  }
+
+  if ( !conf.contains("PiTofCut") ) {
+    upper_pi_tof_cut = 0.0;
+    lower_pi_tof_cut = 0.0;
+  } else {
+    upper_pi_tof_cut = conf.at( "PiTofCut" ).at( "upper" ).get<double>();
+    lower_pi_tof_cut = conf.at( "PiTofCut" ).at( "lower" ).get<double>();
+  }
 }

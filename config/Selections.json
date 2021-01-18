@@ -7,6 +7,18 @@
     "proton_count" : 0,
     "neutron_count" : 0
   },
+  "EMScoreCut" : {
+    "upper": 1.0,
+    "lower": 0.35
+  },
+  "TrackScoreCut" : {
+    "upper": 1.0,
+    "lower": 0.3
+  },
+  "PiTofCut" : {
+    "upper": 98.0,
+    "lower": 96.0
+  },
   "IsTruthPionQE" : {
   }
 }

@@ -78,7 +78,7 @@ def plot_spacepoints(tree, event_idx, run, evt, truth, reco, daughter):
 
     # Plot the reco beam particle
     if reco:
-        print(reco_beam_pdg)
+        print("Reco Beam PDG", reco_beam_pdg)
         util.reco_beam_marker['color'] = util.colors[reco_beam_pdg]
         fig.add_trace(go.Scatter3d(x=reco_beam_x,
                                    y=reco_beam_y,
@@ -91,7 +91,6 @@ def plot_spacepoints(tree, event_idx, run, evt, truth, reco, daughter):
 
     # Plot the truth beam particle
     if truth:
-        print(reco_beam_pdg)
         util.truth_beam_marker['color'] = util.colors[reco_beam_pdg]
         fig.add_trace(go.Scatter3d(x=truth_beam_x,
                                    y=truth_beam_y,
@@ -105,7 +104,7 @@ def plot_spacepoints(tree, event_idx, run, evt, truth, reco, daughter):
     # Plot the reco daughter tracks
     if reco and daughter:
         for x, y, z, pdg in zip(reco_daughter_x, reco_daughter_y, reco_daughter_z, reco_daughter_pdg):
-            print("Daughter PDG", pdg)
+            print("Reco Daughter PDG", pdg)
             util.reco_daughter_marker['color'] = util.colors[pdg]
             fig.add_trace(go.Scatter3d(x=np.asarray(x),
                                        y=np.asarray(y),
@@ -151,8 +150,8 @@ def plot_event(file, tree_dir, run, evt, truth, reco, daughter):
 
 if len(sys.argv) == 4:
     file = sys.argv[1]
-    run = sys.argv[1]
-    event = sys.argv[1]
+    run = sys.argv[2]
+    event = sys.argv[3]
 else:
     print("None or too many arguements using defaults. Num arguements =", len(sys.argv)-1)
 

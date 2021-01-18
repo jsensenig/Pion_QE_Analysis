@@ -2,7 +2,7 @@ import os
 import sys
 import time
 from flask import Flask, render_template
-from ROOT import TFile, TCanvas
+import ROOT
 
 
 app = Flask(__name__)
@@ -11,7 +11,7 @@ app = Flask(__name__)
 def open_file(in_file):
 
     try:
-        f = TFile.Open(in_file, 'READ')
+        f = ROOT.TFile.Open(in_file, 'READ')
         return f
     except FileNotFoundError:
         print("No file found at ", in_file)
@@ -22,16 +22,19 @@ def hist_to_image(in_file):
 
     ifile = open_file(in_file)
 
+    ROOT.gROOT.SetBatch(True) # Turn off Root Tcanvas display
+
     hists = ifile.GetListOfKeys()
     ts = str(time.time())
     images = []
+    print("File:", ifile, " Number of hists:", len(hists))
 
     for h in hists:
 
         h_name = h.GetName()
-        c = TCanvas()
+        c = ROOT.TCanvas()
         hist = ifile.Get(h_name)
-        hist.Draw("COLZ")
+        hist.Draw("COLZ TEXT")
 
         c.SaveAs("static/" + h_name + "_" + ts + ".png")
         images.append("static/" + h_name + "_" + ts + ".png")
@@ -42,7 +45,7 @@ def hist_to_image(in_file):
 def remove_stale_imgs():
 
     for filename in os.listdir('static/'):
-        if filename.startswith('h_'):  # not to remove other images
+        if filename.startswith('h'):  # not to remove other images
             os.remove('static/' + filename)
 
 

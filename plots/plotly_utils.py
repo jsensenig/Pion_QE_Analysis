@@ -24,7 +24,7 @@ reco_beam_marker = {'size': 4, 'color': '',  'symbol': 'diamond', 'colorscale': 
                'cmax': 1., 'cmin': 0.}
 
 # Reco daughter particles
-reco_daughter_marker = {'size': 4, 'color': '',  'symbol': 'diamond', 'colorscale': "Viridis", 'opacity': 0.8,
+reco_daughter_marker = {'size': 2, 'color': '',  'symbol': 'diamond', 'colorscale': "Viridis", 'opacity': 0.8,
                    'cmax': 1., 'cmin': 0.}
 
 # MC truth beam particles

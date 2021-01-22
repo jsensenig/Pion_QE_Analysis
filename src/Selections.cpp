@@ -86,8 +86,7 @@ int Selections::PrimaryChi2PID( std::unique_ptr<Reader> & rdr ) {
   auto pdg = std::min_element( chi2_map.begin(), chi2_map.end(),
                                 [](const auto& l, const auto& r) { return l.second < r.second; } );
 
-  if ( pdg != chi2_map.end() ) return (*pdg).first;
-  else return 0;
+  return ( pdg != chi2_map.end() ) ? (*pdg).first : 0;
 
 }
 
@@ -108,9 +107,7 @@ std::vector<int> Selections::DaughterChi2PID( std::unique_ptr<Reader> & rdr ) {
     auto pdg = std::min_element( chi2_map.begin(), chi2_map.end(),
                                  []( const auto& l, const auto& r ) { return l.second < r.second; } );
 
-    if ( pdg != chi2_map.end() ) daughter_pdg.emplace_back( ( *pdg ).first );
-    else daughter_pdg.emplace_back( 0 );
-
+    ( pdg != chi2_map.end() ) ? daughter_pdg.emplace_back( ( *pdg ).first ) : daughter_pdg.emplace_back( 0 );
   }
 
   return daughter_pdg;
@@ -122,43 +119,43 @@ void Selections::Config() {
   json conf = utils::LoadConfig( _config_file );
   if ( conf == 0x0 ) return;
 
-  if ( !conf.contains("PIDACut") ) {
-    upper_PIDACut = 0.0;
-    lower_PIDACut = 0.0;
-  } else {
+  if ( conf.contains("PIDACut") ) {
     upper_PIDACut = conf.at( "PIDACut" ).at( "upper" ).get<double>();
     lower_PIDACut = conf.at( "PIDACut" ).at( "lower" ).get<double>();
+  } else {
+    upper_PIDACut = 0.0;
+    lower_PIDACut = 0.0;
   }
 
-  if ( !conf.contains("DaughterCut") ) {
-    proton_daughter_count = 999;
-    neutron_daughter_count = 999;
-  } else {
+  if ( conf.contains("DaughterCut") ) {
     proton_daughter_count = conf.at( "DaughterCut" ).at("neutron_count" ).get<int>();
     neutron_daughter_count = conf.at( "DaughterCut" ).at("proton_count" ).get<int>();
+  } else {
+    proton_daughter_count = 999;
+    neutron_daughter_count = 999;
   }
 
-  if ( !conf.contains("EMScoreCut") ) {
-    upper_em_score = 0.0;
-    lower_em_score = 0.0;
-  } else {
+  if ( conf.contains("EMScoreCut") ) {
     upper_em_score = conf.at( "EMScoreCut" ).at( "upper" ).get<double>();
     lower_em_score = conf.at( "EMScoreCut" ).at( "lower" ).get<double>();
+  } else {
+    upper_em_score = 0.0;
+    lower_em_score = 0.0;
   }
 
-  if ( !conf.contains("TrackScoreCut") ) {
-    upper_track_score = 0.0;
-    lower_track_score = 0.0;
-  } else {
+  if ( conf.contains("TrackScoreCut") ) {
     upper_track_score = conf.at( "TrackScoreCut" ).at( "upper" ).get<double>();
     lower_track_score = conf.at( "TrackScoreCut" ).at( "lower" ).get<double>();
+  } else {
+    upper_track_score = 0.0;
+    lower_track_score = 0.0;
   }
 
-  if ( !conf.contains("PiTofCut") ) {
-    upper_pi_tof_cut = 0.0;
-    lower_pi_tof_cut = 0.0;
-  } else {
+  if ( conf.contains("PiTofCut") ) {
     upper_pi_tof_cut = conf.at( "PiTofCut" ).at( "upper" ).get<double>();
     lower_pi_tof_cut = conf.at( "PiTofCut" ).at( "lower" ).get<double>();
+  } else {
+    upper_pi_tof_cut = 0.0;
+    lower_pi_tof_cut = 0.0;
   }
 }

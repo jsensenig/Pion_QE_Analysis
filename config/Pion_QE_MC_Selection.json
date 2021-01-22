@@ -88,6 +88,22 @@
       "bins": 100,
       "u_lim": 1000,
       "l_lim": 0
+    },
+    {
+      "name" : "hPiQeTheta",
+      "type": "TH1D",
+      "axes": "Pi+ Scattering Theta;#theta [rad];Count",
+      "bins": 64,
+      "u_lim": 3.2,
+      "l_lim": -3.2
+    },
+    {
+      "name" : "hPiQePhi",
+      "type": "TH1D",
+      "axes": "Pi+ Scattering Phi;#phi [rad];Count",
+      "bins": 64,
+      "u_lim": 3.2,
+      "l_lim": -3.2
     }
 
   ],
@@ -190,6 +206,28 @@
       "xl_lim": 0,
       "yu_lim": 2,
       "yl_lim": 0
+    },
+    {
+      "name" : "hRecoBeamInstXY",
+      "type": "TH2D",
+      "axes": "Reco Beam Inst XY;x [cm];y [cm]",
+      "xbins": 20,
+      "ybins": 40,
+      "xu_lim": 0,
+      "xl_lim": -100,
+      "yu_lim": 500,
+      "yl_lim": 300
+    },
+    {
+      "name" : "hRecoBeamTpcXY",
+      "type": "TH2D",
+      "axes": "Reco Beam TPC XY;x [cm];y [cm]",
+      "xbins": 20,
+      "ybins": 40,
+      "xu_lim": 0,
+      "xl_lim": -100,
+      "yu_lim": 500,
+      "yl_lim": 300
     }
 
   ]

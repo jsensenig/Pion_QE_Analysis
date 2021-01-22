@@ -24,7 +24,7 @@ void Pion_QE_MC_Selection::ReadData( std::unique_ptr<Reader> & rdr ) {
   _pionqe = _true_pionqe = _piontruth = _pionreco = 0;
   bool true_qe, reco_qe;
 
-  // Loop over leaves
+  // Loop over events
   while ( rdr->Next() ) {
 
     std::cout << "Event " << *rdr->event << " Run " << *rdr->run << " ********************************" << std::endl;
@@ -72,8 +72,12 @@ void Pion_QE_MC_Selection::ReadData( std::unique_ptr<Reader> & rdr ) {
 
     std::cout << "EM count = " << em_cnt << " Track count = " << track_cnt << std::endl;
     // Only want nucleons or mesons in final state.
-    // To be QE must be at least pi+ and 1 nucleon i.e. 2 tracks
-    bool select_evt = em_cnt < 2 && track_cnt > 0 && sel.PiTofCut(rdr->beam_inst_TOF.At(0));
+    // To be QE must be at least pi+ and 1 nucleon i.e. 2 tracks so conditions are
+    // * < 2 counts of EM activity from CNN score
+    // * > 0 count of Tracks from CNN score
+    // * TOF cut to select pion this is beam energy dependent assuming 1GeV here
+    bool select_evt = em_cnt < 2 && track_cnt > 0 && sel.PiTofCut(rdr->beam_inst_TOF.At(0))
+                   && *rdr->reco_beam_type == 13;
 
     // Print event debug info if true and reco selection don't match
     if( true_qe != select_evt ) PrintEventDebug( rdr );
@@ -83,11 +87,23 @@ void Pion_QE_MC_Selection::ReadData( std::unique_ptr<Reader> & rdr ) {
       continue;
     }
 
+    std::cout << "Beam End (x,y,z) = (" << *rdr->reco_beam_endX << ","
+              << *rdr->reco_beam_endY << "," <<*rdr->reco_beam_endZ << ")" << std::endl;
+
     // Reached the end of selection should be a pi QE event
     std::cout << "\033[35m Selected reco pi QE event! \033[0m" << std::endl;
     reco_qe = true;
     _hists.th1_hists["hRecoPiQE"] -> Fill(1);
     _hists.th2_hists["hTrueRecoPiQeConfusion"] -> Fill( reco_qe, true_qe );
+    // Daughter scattering angles wrt z-axis. Polar (theta) and azimuthal (phi)
+    for ( int d = 0; d < rdr->reco_daughter_allTrack_Theta.GetSize(); d++ ) {
+      _hists.th1_hists["hPiQeTheta"]->Fill( rdr->reco_daughter_allTrack_Theta.At( d ));
+      _hists.th1_hists["hPiQePhi"]->Fill( rdr->reco_daughter_allTrack_Phi.At( d ));
+    }
+
+    // Check the XY position from beam instrumentation and TPC
+    _hists.th2_hists["hRecoBeamInstXY"] -> Fill( *rdr->beam_inst_X, *rdr->beam_inst_Y );
+    _hists.th2_hists["hRecoBeamTpcXY"] -> Fill( *rdr->reco_beam_startX, *rdr->reco_beam_startY );
 
     _pionqe += 1;
 
@@ -124,7 +140,7 @@ void Pion_QE_MC_Selection::PrintEventDebug( std::unique_ptr<Reader> & rdr ) cons
 
   // Print truth info
   std::cout << "-------- Debug Event " << *rdr->event << " --------" << std::endl;
-  std::cout << "\033[35m Truth Info \033[0m" <<std::endl;
+  std::cout << "\033[35m Truth Info \033[0m" << std::endl;
   std::cout << "Beam particle " << *rdr->true_beam_PDG << std::endl;
 
   for ( auto &p  : rdr->true_beam_processes ) std::cout << "Beam process " << p <<std::endl;
@@ -132,7 +148,8 @@ void Pion_QE_MC_Selection::PrintEventDebug( std::unique_ptr<Reader> & rdr ) cons
 
   // Print reco info
   std::cout << "\033[35m Reco Info \033[0m" <<std::endl;
-  for ( auto &d_pdg  : rdr->reco_daughter_PFP_true_byHits_PDG ) std::cout << "Daughter " << d_pdg <<std::endl;
+  for ( auto &d_pdg  : rdr->reco_daughter_PFP_true_byHits_PDG ) std::cout << "Daughter PDG by hits " << d_pdg <<std::endl;
+  for ( auto & parent : rdr->reco_daughter_PFP_true_byHits_parPDG ) std::cout << "Parent PDG by hits " << parent <<std::endl;
 
 }
 
